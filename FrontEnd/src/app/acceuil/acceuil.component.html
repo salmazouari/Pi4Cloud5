@@ -1,0 +1,27 @@
+<!-- Spacer to prevent header overlap -->
+<div style="height: 113px;"></div>
+
+<!-- Hero Section -->
+<section class="home-section section-hero overlay bg-image" style="background-image: url('assets/images/hero_1.jpg');" id="home-section">
+  <div class="container">
+    <div class="row align-items-center justify-content-center">
+      <div class="col-md-12">
+        <!-- Welcome message for logged in users -->
+        <div *ngIf="isLoggedIn" class="welcome-banner text-center mb-4">
+          <h3 class="text-white">Welcome, {{currentUser?.firstName || 'User'}}!</h3>
+          <p class="text-white-50">Ready to explore new opportunities today?</p>
+        </div>
+        
+        <div class="mb-5 text-center">
+          <h1 class="text-white font-weight-bold">The Easiest Way To Get Your Dream Job</h1>
+          <p>Find jobs, create trackable resumes and enrich your applications.</p>
+        </div>
+        
+        <!-- Rest of your home page content -->
+        <!-- ... -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Rest of the acceuil content -->
