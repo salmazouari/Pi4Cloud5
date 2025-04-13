@@ -13,6 +13,9 @@ import { AcceuilComponent } from './acceuil/acceuil.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { EventCardComponent } from './event-card/event-card.component';
+import { JoinEventComponent } from './join-event/join-event.component';
+import { ReservationComponent } from './reservation/reservation.component';
 
 @NgModule({
   declarations: [
@@ -24,13 +27,18 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     EventsComponent,
     LoginComponent,
     AcceuilComponent,
-    DashboardComponent
+    DashboardComponent,
+    EventCardComponent,
+    JoinEventComponent,
+    ReservationComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    
     ReactiveFormsModule,
+    
     HttpClientModule
   ],
   providers: [],
