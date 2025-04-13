@@ -25,6 +25,8 @@ public class User implements Serializable {
     private Role role;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Registry> registries;
+    @OneToMany(mappedBy = "user1", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Events> events;
 
 
     public enum Role {
