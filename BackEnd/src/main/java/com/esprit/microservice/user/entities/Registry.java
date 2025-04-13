@@ -36,12 +36,10 @@ public class Registry implements Serializable {
     private String school;
 
     // One Registry can have multiple Seats
-    @OneToMany(cascade = CascadeType.ALL)
-
-    private Set<Seat> Seats;
+    @OneToMany(mappedBy = "registry", cascade = CascadeType.ALL)
+    private Set<Seat> seats;
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
+    @JoinColumn(name = "user_id")
+    private User user;  // Expects {id} in JSON
 
 }
