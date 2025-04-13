@@ -16,6 +16,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/seats")
 @AllArgsConstructor
+@CrossOrigin("http://localhost:4200")
 @Tag(name = "Seat", description = "Seat reservation management APIs")
 public class SeatController {
 

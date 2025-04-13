@@ -3,14 +3,16 @@ package com.esprit.microservice.user.services.RegistryService;
 import lombok.AllArgsConstructor;
 import com.esprit.microservice.user.entities.Registry;
 import com.esprit.microservice.user.entities.Seat;
+import com.esprit.microservice.user.entities.User;
 import com.esprit.microservice.user.repositories.RegistryRepository;
 import com.esprit.microservice.user.repositories.SeatRepository;
+import com.esprit.microservice.user.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -18,31 +20,19 @@ public class RegistryService implements IRegistryService {
 
     private final RegistryRepository registryRepository;
     private final SeatRepository seatRepository;
+    private final UserRepository userRepository;
+@Override
+public Registry createRegistry(Registry registry) {
+    // 1. Validate and set user
+    User user = userRepository.findById(registry.getUser().getUserId())
+            .orElseThrow(() -> new RuntimeException("User not found"));
+    registry.setUser(user);
 
-    @Override
 
-    public Registry createRegistry(Registry registry) {
-        // Check if seats are provided in the request
-        if (registry.getSeats() != null && !registry.getSeats().isEmpty()) {
-            Set<Seat> seats = new HashSet<>();
-            // Iterate over seat IDs and fetch Seat entities from the database
-            for (Seat seat : registry.getSeats()) {
-                if (seat.getId() == null) {
-                    throw new IllegalArgumentException("Each seat must have a valid ID.");
-                }
-                // Retrieve the seat entity from the database using the provided ID
-                Seat existingSeat = seatRepository.findById(seat.getId())
-                        .orElseThrow(() -> new IllegalArgumentException("Seat not found for ID: " + seat.getId()));
 
-                seats.add(existingSeat);  // Add the found seat to the seats set
-            }
-
-            registry.setSeats(seats);  // Set the seats in the registry entity
-        }
-
-        // Save the registry entity (along with its associated seats due to cascading)
-        return registryRepository.save(registry);
-    }
+    // 6. Save the registry (cascade should handle seats)
+    return registryRepository.save(registry);
+}
 
 
 
@@ -52,21 +42,45 @@ public class RegistryService implements IRegistryService {
     }
 
     @Override
-    public Optional<Registry> getRegistryById(Long id) {
-        return registryRepository.findById(id);
+    public Registry getRegistryById(Long id) {
+        return registryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Registry not found with id: " + id));
     }
 
     @Override
-    public Registry updateRegistry(Long id, Registry registry) {
-        if (registryRepository.existsById(id)) {
-            registry.setId(id);
-            return registryRepository.save(registry);
+    public Registry updateRegistry(Long id, Registry registryDetails) {
+        Registry registry = getRegistryById(id);
+        registry.setName(registryDetails.getName());
+        registry.setLastname(registryDetails.getLastname());
+        registry.setEmail(registryDetails.getEmail());
+        registry.setSchool(registryDetails.getSchool());
+
+        // Update user if changed
+        if (registryDetails.getUser() != null &&
+                !registry.getUser().getUserId().equals(registryDetails.getUser().getUserId())) {
+            User user = userRepository.findById(registryDetails.getUser().getUserId())
+                    .orElseThrow(() -> new IllegalArgumentException("User not found"));
+            registry.setUser(user);
         }
-        return null; // Or throw an exception
+
+        return registryRepository.save(registry);
     }
 
     @Override
     public void deleteRegistry(Long id) {
-        registryRepository.deleteById(id);
+        Registry registry = getRegistryById(id);
+
+        // Free all seats associated with this registry
+        if (registry.getSeats() != null) {
+            for (Seat seat : registry.getSeats()) {
+                seat.setIsBooked(false);
+                seat.setRegistry(null);
+                seatRepository.save(seat);
+            }
+        }
+
+        registryRepository.delete(registry);
     }
+
+
 }

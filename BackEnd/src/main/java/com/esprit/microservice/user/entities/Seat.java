@@ -31,6 +31,9 @@ public class Seat implements Serializable {
     private Events event;  // Associate the seat with an event
 
     @Column(name = "is_booked", nullable = false)
-    private Boolean isBooked = false; // To track if the seat is booked or not
+    private Boolean isBooked = false;
+    @ManyToOne
+    @JoinColumn(name = "registry_id")
+    private Registry registry;
 
 }
