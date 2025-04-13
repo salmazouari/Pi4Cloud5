@@ -1,56 +1,50 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Event } from '../../../models/events.model';  // Import Event model
-import { Seat } from '../../../models/seats.model';   // Import Seat model
+import { Seat } from 'src/app/models/seats.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SeatService {
-  private apiUrl = 'http://localhost:8093/seats';  // Update with your backend URL
+  private apiUrl = 'http://localhost:8093/seats'; // Update with your backend URL
 
   constructor(private http: HttpClient) {}
-
-  // Method to create or update a seat
-  createOrUpdateSeat(seat: Seat): Observable<any> {
-    return this.http.post<any>(this.apiUrl, seat);
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
   }
 
-  // Method to delete a seat
-  deleteSeat(placement: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${placement}`);
+  // Get all seats for a specific event
+  getSeatsByEventId(eventId: number): Observable<Seat[]> {
+    return this.http.get<Seat[]>(`${this.apiUrl}/events/${eventId}/seats`, { headers: this.getAuthHeaders() });
   }
 
-  // Method to get all seats (optional)
-  getAllSeats(): Observable<Seat[]> {
-    return this.http.get<Seat[]>(this.apiUrl);
+  // Add a seat to an event
+  addSeatForEvent(seat: Seat, eventId: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/add/${eventId}`, seat, { headers: this.getAuthHeaders() });
   }
 
-  getEventDetails(eventID: string): Observable<Event> {
-    return this.http.get<Event>(`/api/events/${eventID}`);
+  // Get a single seat by ID
+  getSeatById(id: number): Observable<Seat> {
+    return this.http.get<Seat>(`${this.apiUrl}/${id}`);
   }
 
-  getSeatsForEvent(eventId: string | number): Observable<Seat[]> {
-    return this.http.get<Seat[]>(`${this.apiUrl}/event/${eventId}`);
-  }
- // seat.service.ts
-// seat.service.ts
-addSeatForEvent(seat: { placement: string, isBooked: boolean, event: { EventID: number } }, eventID: number): Observable<any> {
-  return this.http.post(`${this.apiUrl}/add/${eventID}`, seat);
-}
- updateSeat(seat: Seat): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/update/${seat.id}`, seat);
-  }
-  getEventTitle(id: number): Observable<string> {
-    return this.http.get<string>(`${this.apiUrl}/${id}/title`);
+  // Update a seat
+  updateSeat(seat: Seat): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${seat.id}`, seat);
   }
 
-  // Fetch event location
-  getEventLocation(id: number): Observable<string> {
-    return this.http.get<string>(`${this.apiUrl}/${id}/location`);
+  // Delete a seat
+  deleteSeat(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
-  getAvailableSeats(eventId: number): Observable<Seat[]> {
-    return this.http.get<Seat[]>(`${this.apiUrl}/events/${eventId}/seats`);
+
+  // Get event details (if needed for other components)
+  getEventDetails(eventId: number): Observable<Event> {
+    return this.http.get<Event>(`/api/events/${eventId}`); // Adjust URL as needed
   }
 }

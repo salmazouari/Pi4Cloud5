@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { EventService } from '../services/event-services/event.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Registration } from '../models/registry.model';
-
+import { UserService } from '../user.service';
 import { SeatService } from '../services/event-services/seat-services/seat.service';
 import { Seat } from '../models/seats.model';
 import { Event } from '../models/events.model';
@@ -20,12 +20,12 @@ export class ReservationComponent implements OnInit {
   selectedSeats: Seat[] = [];
   maxAttendees: number = 0;
   startTime: string = '';
-  endTime: string='';
+  endTime: string = '';
   pricePerSeat: number = 15;
   EventID: number = 0;
   eventTitle: string | undefined = 'Loading...';
   eventLocation: string | undefined = 'Loading...';
-  
+  currentUserId: number | undefined;
   attendeeForm!: FormGroup;
   
   event: Event = {
@@ -44,12 +44,13 @@ export class ReservationComponent implements OnInit {
     private eventService: EventService, 
     private route: ActivatedRoute,
     private registrationService: RegistrationService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private userService: UserService
   ) {
     const navigation = this.router.getCurrentNavigation();
     this.maxAttendees = navigation?.extras?.state?.['maxAttendees'] || 0;
     this.route.params.subscribe(params => {
-      this.EventID = +params['id']; // Extract EventID from URL
+      this.EventID = +params['id'];
       this.attendeeForm = this.fb.group({
         name: ['', Validators.required],
         lastname: ['', Validators.required],
@@ -61,47 +62,82 @@ export class ReservationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
+    const currentUser = this.userService.getCurrentUser();
+    this.currentUserId = currentUser?.userId;
+    this.currentUserId = currentUser?.userId;
     this.loadEventDetails();
   }
   
-
   loadSeats(): void {
     this.availableSeats = Array.from({ length: this.maxAttendees }, (_, i) => ({
       id: i + 1,
       placement: `Seat-${i + 1}`,
       event: { EventID: this.EventID },
       isBooked: false,
+      registry: { RegistryID: 0 }
     }));
   }
+
   onFormSubmit() {
-    if (this.attendeeForm.valid && this.selectedSeats.length > 0) {
-      const registration: Registration = {
-        ...this.attendeeForm.value,
-        seats: this.selectedSeats.map(seat => ({
-          id: seat.id,
-          placement: seat.placement,
-          isBooked: true
-        }))
-      };
-      this.registrationService.createRegistry(registration).subscribe({
-        next: (savedRegistration) => {
-          console.log('Registration saved:', savedRegistration);
-          this.bookSeats(); // Mark seats as booked in your system
-          this.clearSelection();
-        },
-        error: (err) => {
-          console.error('Registration failed:', err);
-          alert('Registration failed. Please try again.');
-        }
-      });
-      
+    const currentUser = this.userService.getCurrentUser();
+    
+    if (!currentUser?.userId) {
+      alert('Please log in first');
+      this.router.navigate(['/login']);
+      return;
     }
+  
+    const formValue = this.attendeeForm.value;
+    const registrationData = {
+      name: formValue.name,
+      lastname: formValue.lastname,
+      email: formValue.email,
+      school: formValue.school || null,
+      user: {
+        id: currentUser.userId
+      }
+    };
+  
+    console.log('Prepared Data:', registrationData);
+  
+    this.registrationService.createRegistry(registrationData).subscribe({
+      next: (response) => {
+        console.log('Success:', response);
+        const seatsToSave = this.selectedSeats.map(seat => ({
+          placement: seat.placement,
+          isBooked: true,
+          event: { event_id: this.EventID },
+          registry: { id: response.id }  // Corrected property name and syntax
+        }));
+    
+        const requests = seatsToSave.map(seat =>
+          this.seatService.addSeatForEvent(seat as any, this.EventID).toPromise()
+        );Promise.all(requests)
+        .then(() => {
+          this.bookedSeats.push(...this.selectedSeats);
+          this.availableSeats = this.availableSeats.filter(s => !this.selectedSeats.includes(s));
+          this.selectedSeats = [];
+          alert('Seats booked successfully!');
+        })
+        .catch(err => {
+          console.error('Error saving seats:', err);
+          alert(`Error: ${err.error?.message || 'Failed to book seats. Please try again.'}`);
+        });
+       
+      },
+      error: (err) => {
+        console.error('Full error:', err);
+        alert(`Error: ${err.error?.message || 'Registration failed'}`);
+      }
+    });
   }
 
   clearSelection() {
     this.selectedSeats = [];
     this.attendeeForm.reset();
   }
+
   loadEventDetails(): void {
     this.eventService.getEventDetails(this.EventID).subscribe({
       next: (event: Event) => {
@@ -111,7 +147,6 @@ export class ReservationComponent implements OnInit {
         this.startTime = this.formatDateTime(event.startTime);
         this.endTime = this.formatDateTime(event.endTime);
         this.maxAttendees = event.maxAttendees;
-        // Reload seats with correct maxAttendees
         this.loadSeats();
       },
       error: (error) => {
@@ -136,9 +171,10 @@ export class ReservationComponent implements OnInit {
       });
     } catch (e) {
       console.error('Error formatting date:', e);
-      return dateTimeString; // Return raw string if formatting fails
+      return dateTimeString;
     }
   }
+
   selectSeat(seat: Seat): void {
     if (!this.selectedSeats.includes(seat)) {
       this.selectedSeats.push(seat);
@@ -154,35 +190,6 @@ export class ReservationComponent implements OnInit {
 
   calculateTotalPrice(): number {
     return this.selectedSeats.length * this.pricePerSeat;
-  }
-
-  bookSeats(): void {
-    if (this.selectedSeats.length === 0) {
-      alert('Please select at least one seat.');
-      return;
-    }
-
-    const seatsToSave = this.selectedSeats.map(seat => ({
-      placement: seat.placement,
-      isBooked: true,
-      event: { event_id: this.EventID }  // Matches backend expectation
-    }));
-
-    const requests = seatsToSave.map(seat =>
-      this.seatService.addSeatForEvent(seat as any, this.EventID).toPromise()
-    );
-
-    Promise.all(requests)
-      .then(() => {
-        this.bookedSeats.push(...this.selectedSeats);
-        this.availableSeats = this.availableSeats.filter(s => !this.selectedSeats.includes(s));
-        this.selectedSeats = [];
-        alert('Seats booked successfully!');
-      })
-      .catch(err => {
-        console.error('Error saving seats:', err);
-        alert(`Error: ${err.error?.message || 'Failed to book seats. Please try again.'}`);
-      });
   }
 
   toggleSeatSelection(seat: Seat): void {
@@ -205,5 +212,4 @@ export class ReservationComponent implements OnInit {
   isSeatBooked(seat: Seat): boolean {
     return this.bookedSeats.some(bookedSeat => bookedSeat.placement === seat.placement);
   }
- 
 }

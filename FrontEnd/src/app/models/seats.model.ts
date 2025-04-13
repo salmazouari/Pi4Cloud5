@@ -4,4 +4,5 @@ export interface Seat {
   placement: string;
   event: { EventID: number };  // Change from 'id' to 'EventID'
   isBooked: boolean;
+  registry: { RegistryID: number };
 }
