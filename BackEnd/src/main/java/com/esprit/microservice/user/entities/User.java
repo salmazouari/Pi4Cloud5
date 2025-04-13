@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 public class User implements Serializable {
@@ -22,7 +23,10 @@ public class User implements Serializable {
     private boolean active = true;
     @Enumerated(EnumType.STRING)
     private Role role;
-
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Registry> registries;
+    @OneToMany(mappedBy = "user1", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Events> events;
 
 
     public enum Role {
@@ -118,7 +122,9 @@ public class User implements Serializable {
 
     public User() {
     }
-
+    public User(Long userId) {
+        this.userId = userId;
+    }
     public User(Role role, boolean active, String phoneNumber, String lastName, String firstName, String password, String email, String username) {
         this.role = role;
         this.active = active;
