@@ -1,10 +1,10 @@
-package org.example.backendspring.Controllers;
+package com.esprit.microservice.user.restController;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import org.example.backendspring.Entities.Registry;
-import org.example.backendspring.Services.IRegistryService;
+import com.esprit.microservice.user.entities.Registry;
+import com.esprit.microservice.user.services.RegistryService.IRegistryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

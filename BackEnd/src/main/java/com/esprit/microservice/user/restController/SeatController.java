@@ -1,11 +1,11 @@
-package org.example.backendspring.Controllers;
+package com.esprit.microservice.user.restController;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.OptimisticLockException;
 import lombok.AllArgsConstructor;
-import org.example.backendspring.Entities.Seat;
-import org.example.backendspring.Services.ISeatService;
+import com.esprit.microservice.user.entities.Seat;
+import com.esprit.microservice.user.services.SeatService.ISeatService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;

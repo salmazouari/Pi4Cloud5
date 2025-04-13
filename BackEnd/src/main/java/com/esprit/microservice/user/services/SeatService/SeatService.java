@@ -1,11 +1,10 @@
-package org.example.backendspring.Services;
+package com.esprit.microservice.user.services.SeatService;
 
 import lombok.AllArgsConstructor;
-import org.example.backendspring.Entities.Events;
-import org.example.backendspring.Entities.Seat;
-import org.example.backendspring.Repositories.EventsRepository;
-import org.example.backendspring.Repositories.SeatRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.esprit.microservice.user.entities.Events;
+import com.esprit.microservice.user.entities.Seat;
+import com.esprit.microservice.user.repositories.EventsRepository;
+import com.esprit.microservice.user.repositories.SeatRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,11 +1,7 @@
-package org.example.backendspring.Repositories;
+package com.esprit.microservice.user.repositories;
 
-import jakarta.transaction.Transactional;
-import org.example.backendspring.Entities.Seat;
+import com.esprit.microservice.user.entities.Seat;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository

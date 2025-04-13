@@ -1,6 +1,6 @@
-package org.example.backendspring.Services;
+package com.esprit.microservice.user.services.EventService;
 
-import org.example.backendspring.Entities.Events;
+import com.esprit.microservice.user.entities.Events;
 
 import java.time.LocalDateTime;
 import java.util.List;

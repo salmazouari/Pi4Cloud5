@@ -1,6 +1,7 @@
-package org.example.backendspring.Services;
+package com.esprit.microservice.user.services.RegistryService;
 
-import org.example.backendspring.Entities.Registry;
+import com.esprit.microservice.user.entities.Registry;
+
 import java.util.List;
 import java.util.Optional;
 

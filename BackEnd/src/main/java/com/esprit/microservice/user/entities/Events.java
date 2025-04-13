@@ -43,7 +43,7 @@ public class Events implements Serializable {
     @Column(name = "HostedBy")
     private String hostedBy;
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private User user1;
 
 }

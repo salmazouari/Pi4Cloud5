@@ -1,10 +1,10 @@
-package org.example.backendspring.Services;
+package com.esprit.microservice.user.services.RegistryService;
 
 import lombok.AllArgsConstructor;
-import org.example.backendspring.Entities.Registry;
-import org.example.backendspring.Entities.Seat;
-import org.example.backendspring.Repositories.RegistryRepository;
-import org.example.backendspring.Repositories.SeatRepository;
+import com.esprit.microservice.user.entities.Registry;
+import com.esprit.microservice.user.entities.Seat;
+import com.esprit.microservice.user.repositories.RegistryRepository;
+import com.esprit.microservice.user.repositories.SeatRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;

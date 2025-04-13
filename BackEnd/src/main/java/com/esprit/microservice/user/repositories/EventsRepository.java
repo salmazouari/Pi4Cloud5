@@ -1,6 +1,6 @@
-package org.example.backendspring.Repositories;
+package com.esprit.microservice.user.repositories;
 
-import org.example.backendspring.Entities.Events;
+import com.esprit.microservice.user.entities.Events;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

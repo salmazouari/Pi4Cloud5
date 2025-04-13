@@ -1,7 +1,7 @@
-package org.example.backendspring.Controllers;
+package com.esprit.microservice.user.restController;
 
-import org.example.backendspring.Entities.Events;
-import org.example.backendspring.Services.IEventService;
+import com.esprit.microservice.user.entities.Events;
+import com.esprit.microservice.user.services.EventService.IEventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,14 +12,16 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/events")
+@CrossOrigin("http://localhost:4200")
 public class EventController {
 
     @Autowired
     private IEventService eventService;
 
     @PostMapping
-    public Events createEvent(@RequestBody Events event) {
-        return eventService.createEvent(event);
+    public ResponseEntity<Events> createEvent(@RequestBody Events event) {
+        eventService.createEvent(event);
+        return ResponseEntity.ok(event);
     }
 
     @GetMapping

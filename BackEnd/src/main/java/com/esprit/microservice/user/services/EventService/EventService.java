@@ -1,8 +1,10 @@
-package org.example.backendspring.Services;
+package com.esprit.microservice.user.services.EventService;
 
+import com.esprit.microservice.user.entities.User;
+import com.esprit.microservice.user.repositories.UserRepository;
 import lombok.AllArgsConstructor;
-import org.example.backendspring.Entities.Events;
-import org.example.backendspring.Repositories.EventsRepository;
+import com.esprit.microservice.user.entities.Events;
+import com.esprit.microservice.user.repositories.EventsRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -14,11 +16,22 @@ import java.util.Optional;
 public class EventService implements IEventService {
 
     private final EventsRepository eventRepository;
+    private final UserRepository userRepository;
+
 
     @Override
     public Events createEvent(Events event) {
-        return eventRepository.save(event);
+
+
+        User user = userRepository.findById(event.getUser1().getUserId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        event.setUser1(user);
+        eventRepository.save(event);
+
+        return event;
     }
+
 
     @Override
     public List<Events> getAllEvents() {

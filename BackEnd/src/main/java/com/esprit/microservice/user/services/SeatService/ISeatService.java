@@ -1,6 +1,7 @@
-package org.example.backendspring.Services;
+package com.esprit.microservice.user.services.SeatService;
 
-import org.example.backendspring.Entities.Seat;
+import com.esprit.microservice.user.entities.Seat;
+
 import java.util.List;
 import java.util.Optional;
 

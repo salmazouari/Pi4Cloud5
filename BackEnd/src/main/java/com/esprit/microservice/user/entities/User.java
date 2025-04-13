@@ -122,7 +122,9 @@ public class User implements Serializable {
 
     public User() {
     }
-
+    public User(Long userId) {
+        this.userId = userId;
+    }
     public User(Role role, boolean active, String phoneNumber, String lastName, String firstName, String password, String email, String username) {
         this.role = role;
         this.active = active;
