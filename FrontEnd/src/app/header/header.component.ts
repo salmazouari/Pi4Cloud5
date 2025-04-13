@@ -32,6 +32,9 @@ export class HeaderComponent implements OnInit {
       this.isLoggedIn = !!user;
     });
   }
+  navigateToEvents() {
+    this.router.navigate(['/events']);
+  }
 
   // Logout function
   logout(): void {
