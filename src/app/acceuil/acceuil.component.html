@@ -1,0 +1,44 @@
+<!-- src/app/acceuil/acceuil.component.html -->
+
+<div class="site-wrap">
+
+  <!-- HERO SECTION -->
+  <section class="section-hero overlay inner-page bg-image"
+           [ngStyle]="{'background-image': 'url(assets/images/hero_1.jpg)'}"
+           id="home-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+
+          <!-- Breadcrumb -->
+          <div class="custom-breadcrumbs mb-0">
+            <a routerLink="/">Home</a>
+            <span class="mx-2 slash">/</span>
+            <span class="text-white"><strong>Welcome</strong></span>
+          </div>
+
+          <!-- Page Title -->
+          <h1 class="text-white">Welcome to Our Job Portal</h1>
+
+          <!-- Welcome message for logged in users -->
+          <div *ngIf="isLoggedIn" class="welcome-banner text-center mt-4">
+            <h3 class="text-white">Hello, {{ currentUser?.firstName || 'User' }}!</h3>
+            <p class="text-white-50">Ready to explore new opportunities today?</p>
+            <button (click)="logout()" class="btn btn-danger mt-3">Logout</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ADDITIONAL CONTENT (optional) -->
+  <section class="site-section">
+    <div class="container text-center">
+      <h2>Discover Thousands of Jobs</h2>
+      <p>Search through our job listings and take the next step in your career.</p>
+      <a routerLink="/blog" class="btn btn-primary mt-3">Browse Blog</a>
+    </div>
+  </section>
+
+</div>
