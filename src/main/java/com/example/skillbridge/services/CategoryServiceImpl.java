@@ -5,6 +5,8 @@ import com.example.skillbridge.models.Category;
 import com.example.skillbridge.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -19,6 +21,9 @@ public class CategoryServiceImpl implements CategoryService {
         if (categoryRepository.existsByName(category.getName())) {
             throw new IllegalArgumentException("Category '" + category.getName() + "' already exists!");
         }
+        category.setCreatedAt(Instant.now());
+        category.setUpdatedAt(Instant.now());
+
         return categoryRepository.save(category);
     }
 
@@ -37,6 +42,7 @@ public class CategoryServiceImpl implements CategoryService {
     public Category updateCategory(Long categoryId, Category updatedCategory) {
         Category existingCategory = getCategoryById(categoryId);
         existingCategory.setName(updatedCategory.getName());
+        existingCategory.setUpdatedAt(Instant.now());
         return categoryRepository.save(existingCategory);
     }
 
