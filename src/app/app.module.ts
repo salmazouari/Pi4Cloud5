@@ -5,6 +5,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './interceptors/token.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatListModule } from '@angular/material/list';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -23,6 +30,10 @@ import { EditPostComponent } from './edit-post/edit-post.component';
 import { AcceuilComponent } from './acceuil/acceuil.component';
 import { LoginComponent } from './auth/login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { CategoryListComponent } from './dashboard/categories/category-list/category-list.component';
+import { CategoryFormComponent } from './dashboard/categories/category-form/category-form.component';
+import {MatTableModule} from "@angular/material/table";
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
@@ -40,14 +51,26 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     EditPostComponent,
     AcceuilComponent,
     LoginComponent,
-    DashboardComponent
+    DashboardComponent,
+    CategoryListComponent,
+    CategoryFormComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    FormsModule // Import FormsModule for template-driven forms
+    FormsModule, // Import FormsModule for template-driven forms
+    BrowserAnimationsModule, // Nécessaire pour Angular Material
+    // Modules Angular Material
+    MatIconModule,
+    MatCardModule,
+    MatListModule,
+    MatButtonModule,
+    MatInputModule,
+    MatTableModule,
+    MatDialogModule
+
   ],
   providers: [
     {

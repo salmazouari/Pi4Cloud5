@@ -8,6 +8,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './auth/login/login.component';
 import { AcceuilComponent } from './acceuil/acceuil.component';
 import { AuthGuard } from './auth/auth.guard';
+import {CategoryListComponent} from "./dashboard/categories/category-list/category-list.component";
+import {CategoryFormComponent} from "./dashboard/categories/category-form/category-form.component";
 
 
 const routes: Routes = [
@@ -17,7 +19,16 @@ const routes: Routes = [
   { path: 'edit/:id', component: EditPostComponent },
   {path: 'login', component: LoginComponent},
   { path: 'acceuil', component: AcceuilComponent},
-  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] }, // Protect the dashboard route
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    canActivate: [AuthGuard],
+    children: [
+      { path: 'categories', component: CategoryListComponent },
+      { path: 'categories/new', component: CategoryFormComponent },
+      { path: 'categories/edit/:id', component: CategoryFormComponent },
+    ]
+  },
   { path: '', redirectTo: '/blog', pathMatch: 'full' },
   { path: '**', redirectTo: '/blog' }
 ];

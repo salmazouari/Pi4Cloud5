@@ -1,1 +1,82 @@
-<p>dashboard works!</p>
+<div class="dashboard-container" [class.collapsed]="sidebarCollapsed">
+  <!-- Sidebar -->
+  <nav class="sidebar" [class.collapsed]="sidebarCollapsed">
+    <button class="toggle-btn" mat-icon-button (click)="toggleSidebar()">
+      <mat-icon>{{ sidebarCollapsed ? 'menu_open' : 'menu' }}</mat-icon>
+    </button>
+
+    <h3 class="sidebar-title" *ngIf="!sidebarCollapsed">Admin Panel</h3>
+
+    <ul class="sidebar-nav">
+      <!-- Dashboard Link -->
+      <li routerLinkActive="active">
+        <a routerLink="/dashboard">
+          <mat-icon>dashboard</mat-icon>
+          <span *ngIf="!sidebarCollapsed">Dashboard</span>
+        </a>
+      </li>
+
+      <!-- Categories Link -->
+      <li routerLinkActive="active">
+        <a routerLink="/dashboard/categories">
+          <mat-icon>category</mat-icon>
+          <span *ngIf="!sidebarCollapsed">Categories</span>
+        </a>
+      </li>
+
+      <li>
+        <mat-icon>people</mat-icon>
+        <span *ngIf="!sidebarCollapsed">Users</span>
+      </li>
+      <li>
+        <mat-icon>bar_chart</mat-icon>
+        <span *ngIf="!sidebarCollapsed">Reports</span>
+      </li>
+      <li>
+        <mat-icon>settings</mat-icon>
+        <span *ngIf="!sidebarCollapsed">Settings</span>
+      </li>
+
+      <!-- Logout Button -->
+  <li class="logout-button" (click)="logout()">
+    <mat-icon>logout</mat-icon>
+    <span *ngIf="!sidebarCollapsed">Logout</span>
+  </li>
+
+    </ul>
+  </nav>
+
+  <!-- Main Content Area -->
+  <div class="dashboard-content">
+    <!-- Dashboard Home Content (shown only when route is /dashboard) -->
+    <div *ngIf="isDashboardHome">
+      <h2 class="dashboard-title">📊 Dashboard Overview</h2>
+      <div class="card-grid">
+        <mat-card class="dashboard-card">
+          <mat-card-title>Users</mat-card-title>
+          <mat-card-content>
+            <h3>124</h3>
+            <p>Total registered users</p>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="dashboard-card">
+          <mat-card-title>Posts</mat-card-title>
+          <mat-card-content>
+            <h3>87</h3>
+            <p>Blog posts published</p>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="dashboard-card">
+          <mat-card-title>Events</mat-card-title>
+          <mat-card-content>
+            <h3>12</h3>
+            <p>Upcoming events</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+
+    <!-- This will show CategoryListComponent when route is /dashboard/categories -->
+    <router-outlet></router-outlet>
+  </div>
+</div>
