@@ -1,11 +1,14 @@
 package com.example.skillbridge.controllers;
 
+import com.example.skillbridge.models.BlogPost;
+import com.example.skillbridge.services.BlogPostService;
 import com.example.skillbridge.services.OllamaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -14,9 +17,11 @@ import java.util.Map;
 public class BlogController {
 
     private final OllamaService ollamaService;
+    private final BlogPostService blogPostService;
 
-    public BlogController(OllamaService ollamaService) {
+    public BlogController(OllamaService ollamaService, BlogPostService blogPostService) {
         this.ollamaService = ollamaService;
+        this.blogPostService = blogPostService;
     }
 
     @PostMapping("/generate")
@@ -63,4 +68,11 @@ public class BlogController {
                         .status(HttpStatus.SERVICE_UNAVAILABLE)
                         .body("Ollama connection error: " + e.getMessage())));
     }
+
+    @GetMapping("/search")
+    public List<BlogPost> searchBlogPosts(@RequestParam("q") String query) {
+        return blogPostService.searchBlogPosts(query);
+    }
+
+
 }

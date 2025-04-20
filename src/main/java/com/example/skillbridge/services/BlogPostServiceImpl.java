@@ -104,4 +104,10 @@ public class BlogPostServiceImpl implements BlogPostService {
         blogPostRepository.deleteById(postId);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<BlogPost> searchBlogPosts(String keyword) {
+        return blogPostRepository.findByDeletedAtIsNullAndTitleContainingIgnoreCaseOrContentContainingIgnoreCase(keyword, keyword);
+    }
+
 }

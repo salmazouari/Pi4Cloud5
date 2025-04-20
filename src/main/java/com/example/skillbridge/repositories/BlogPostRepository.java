@@ -10,4 +10,5 @@ import java.util.List;
 public interface BlogPostRepository extends JpaRepository<BlogPost, Long> {
     boolean existsBySlug(String slug);
     List<BlogPost> findByDeletedAtIsNull();
+    List<BlogPost> findByDeletedAtIsNullAndTitleContainingIgnoreCaseOrContentContainingIgnoreCase(String titleKeyword, String contentKeyword);
 }

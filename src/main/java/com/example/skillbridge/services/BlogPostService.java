@@ -12,5 +12,6 @@ public interface BlogPostService {
     List<BlogPost> getAllBlogPosts();
     BlogPost updateBlogPost(Long postId, BlogPost blogPost);
     void deleteBlogPost(Long postId);
-    List<BlogPost> getActiveBlogPosts(); // Exclude soft-deleted posts
+    List<BlogPost> getActiveBlogPosts();
+    List<BlogPost> searchBlogPosts(String keyword);
 }
