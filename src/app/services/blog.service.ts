@@ -64,5 +64,9 @@ export class BlogService {
       { headers: this.getAuthHeaders() }
     );
   }
+
+  searchPosts(query: string): Observable<BlogPost[]> {
+    return this.http.get<BlogPost[]>(`http://localhost:8080/api/blog/search?q=${encodeURIComponent(query)}`);
+  }
   
 }
