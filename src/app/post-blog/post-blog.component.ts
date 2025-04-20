@@ -12,6 +12,9 @@ import { UserService } from '../services/user.service'; // ✅ Import UserServic
 export class PostBlogComponent implements OnInit {
   blogForm!: FormGroup;
   categories: any[] = [];
+  isGenerating = false;
+  generationError: string | null = null;
+
 
   constructor(
     private fb: FormBuilder,
@@ -76,4 +79,31 @@ export class PostBlogComponent implements OnInit {
   preview() {
     console.log('Preview:', this.blogForm.value);
   }
+
+  generateAIContent() {
+    const idea = this.blogForm.get('title')?.value;
+    
+    if (!idea) {
+      this.generationError = 'Please enter a title first';
+      return;
+    }
+
+    this.isGenerating = true;
+    this.generationError = null;
+
+    this.blogService.generateAIContent(idea).subscribe({
+      next: (response) => {
+        this.blogForm.patchValue({
+          content: response.content
+        });
+        this.isGenerating = false;
+      },
+      error: (err) => {
+        console.error('Generation error:', err);
+        this.generationError = 'Failed to generate content. Please try again.';
+        this.isGenerating = false;
+      }
+    });
+  }
+  
 }

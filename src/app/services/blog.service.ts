@@ -9,6 +9,7 @@ import { UserService } from './user.service'; // Add UserService
 })
 export class BlogService {
   private baseUrl = 'http://localhost:8080/api/blog-posts';
+  private aiGenerateUrl = 'http://localhost:8080/api/blog/generate'; // Add this
 
   constructor(private http: HttpClient, private userService: UserService) { }
 
@@ -55,4 +56,13 @@ export class BlogService {
   getCategories(): Observable<any[]> {
     return this.http.get<any[]>('http://localhost:8080/api/categories');
   }
+
+  generateAIContent(idea: string): Observable<{ content: string }> {
+    return this.http.post<{ content: string }>(
+      this.aiGenerateUrl, 
+      { idea }, 
+      { headers: this.getAuthHeaders() }
+    );
+  }
+  
 }

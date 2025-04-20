@@ -37,13 +37,33 @@
             </div>
           </div>
 
-          <div class="form-group">
-            <label for="content">Content</label>
-            <textarea class="form-control" id="content" formControlName="content" rows="5" placeholder="Write your blog content here..."></textarea>
-            <div *ngIf="blogForm.get('content')?.invalid && blogForm.get('content')?.touched" class="text-danger">
-              Content is required.
-            </div>
-          </div>
+          <!-- Add this section above the content textarea -->
+<div class="form-group">
+  <label for="content">Content 
+    <button type="button" 
+            class="btn btn-sm btn-outline-primary ml-2"
+            (click)="generateAIContent()"
+            [disabled]="isGenerating">
+      <span *ngIf="!isGenerating">Generate with AI</span>
+      <span *ngIf="isGenerating">
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Generating...
+      </span>
+    </button>
+  </label>
+  
+  <div *ngIf="generationError" class="alert alert-danger mt-2">
+    {{ generationError }}
+  </div>
+
+  <textarea class="form-control" id="content" formControlName="content" rows="10" 
+            placeholder="Write your blog content here..."></textarea>
+  
+  <div *ngIf="blogForm.get('content')?.invalid && blogForm.get('content')?.touched" 
+       class="text-danger">
+    Content is required.
+  </div>
+</div>
 
           <div class="form-group">
             <label for="slug">Slug</label>
