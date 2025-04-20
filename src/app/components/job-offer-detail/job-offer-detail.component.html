@@ -1,0 +1,48 @@
+<div class="container mt-4">
+    <br><br><br><br>
+
+    <button class="btn btn-secondary mb-3" (click)="goBack()">← Back to Job Offers</button>
+  
+    <div *ngIf="loading" class="d-flex justify-content-center">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  
+    <div *ngIf="error" class="alert alert-danger">
+      {{ error }}
+    </div>
+  
+    <div *ngIf="jobOffer" class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h2>{{ jobOffer.title }}</h2>
+        <div>
+          <button class="btn btn-warning me-2" (click)="goToEdit()">Edit</button>
+          <button class="btn btn-danger" (click)="deleteOffer()">Delete</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="mb-3">
+          <span class="badge bg-info">{{ jobOffer.type }}</span>
+        </div>
+        <h4>Location</h4>
+        <p>{{ jobOffer.location }}, {{ jobOffer.region }}</p>
+  
+        <h4>Description</h4>
+        <p>{{ jobOffer.description }}</p>
+  
+        <h4>Contact</h4>
+        <p>Email: {{ jobOffer.email }}</p>
+  
+        <div *ngIf="jobOffer.image" class="mt-4">
+          <h4>Image</h4>
+          <img [src]="jobOffer.image" class="img-fluid rounded" alt="Job offer image">
+        </div>
+  
+        <div class="mt-4">
+          <h4>Posted by</h4>
+          <p>{{ jobOffer.recruiter?.firstName }} {{ jobOffer.recruiter?.lastName }}</p>
+        </div>
+      </div>
+    </div>
+  </div>

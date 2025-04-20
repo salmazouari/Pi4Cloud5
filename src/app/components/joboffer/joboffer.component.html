@@ -1,0 +1,37 @@
+<div class="container">
+    <br><br><br><br>
+    <h2>Job Offers</h2>
+    <button class="btn btn-primary mb-3" (click)="createOffer()">Create New Job Offer</button>
+  
+    <div *ngIf="loading" class="d-flex justify-content-center">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  
+    <div *ngIf="error" class="alert alert-danger">
+      {{ error }}
+    </div>
+  
+    <div *ngIf="jobOffers.length === 0 && !loading" class="alert alert-info">
+      No job offers available.
+    </div>
+  
+    <div class="row">
+      <div *ngFor="let offer of jobOffers" class="col-md-4 mb-4">
+        <div class="card">
+          <div class="card-header">{{ offer.title }}</div>
+          <div class="card-body">
+            <h5 class="card-title">{{ offer.location }}, {{ offer.region }}</h5>
+            <p class="card-text">{{ offer.description | slice:0:100 }}...</p>
+            <div class="badge bg-info mb-2">{{ offer.type }}</div>
+            <div class="d-flex justify-content-between mt-3">
+              <button class="btn btn-sm btn-primary" (click)="viewDetails(offer.id)">View Details</button>
+              <button class="btn btn-sm btn-warning" (click)="editOffer(offer.id)">Edit</button>
+              <button class="btn btn-sm btn-danger" (click)="deleteOffer(offer.id)">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
