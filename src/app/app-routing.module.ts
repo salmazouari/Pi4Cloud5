@@ -10,6 +10,7 @@ import { AcceuilComponent } from './acceuil/acceuil.component';
 import { AuthGuard } from './auth/auth.guard';
 import {CategoryListComponent} from "./dashboard/categories/category-list/category-list.component";
 import {CategoryFormComponent} from "./dashboard/categories/category-form/category-form.component";
+import { BlogPostListComponent } from './dashboard/blog-post-list/blog-post-list.component';
 
 
 const routes: Routes = [
@@ -27,6 +28,8 @@ const routes: Routes = [
       { path: 'categories', component: CategoryListComponent },
       { path: 'categories/new', component: CategoryFormComponent },
       { path: 'categories/edit/:id', component: CategoryFormComponent },
+      { path: 'posts', component: BlogPostListComponent },
+
     ]
   },
   { path: '', redirectTo: '/blog', pathMatch: 'full' },

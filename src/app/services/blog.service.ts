@@ -68,5 +68,13 @@ export class BlogService {
   searchPosts(query: string): Observable<BlogPost[]> {
     return this.http.get<BlogPost[]>(`http://localhost:8080/api/blog/search?q=${encodeURIComponent(query)}`);
   }
+
+  // Add this method to your BlogService
+getAllPostsWithComments(): Observable<any[]> {
+  return this.http.get<any[]>(
+    'http://localhost:8080/api/blog-posts/admin/all-with-comments',
+    { headers: this.getAuthHeaders() }
+  );
+}
   
 }

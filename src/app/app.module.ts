@@ -11,6 +11,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { CommonModule } from '@angular/common';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 
 
@@ -34,6 +37,7 @@ import { CategoryListComponent } from './dashboard/categories/category-list/cate
 import { CategoryFormComponent } from './dashboard/categories/category-form/category-form.component';
 import {MatTableModule} from "@angular/material/table";
 import {MatDialogModule} from "@angular/material/dialog";
+import { BlogPostListComponent } from './dashboard/blog-post-list/blog-post-list.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +57,8 @@ import {MatDialogModule} from "@angular/material/dialog";
     LoginComponent,
     DashboardComponent,
     CategoryListComponent,
-    CategoryFormComponent
+    CategoryFormComponent,
+    BlogPostListComponent
   ],
   imports: [
     BrowserModule,
@@ -69,6 +74,9 @@ import {MatDialogModule} from "@angular/material/dialog";
     MatButtonModule,
     MatInputModule,
     MatTableModule,
+    CommonModule,
+    MatProgressSpinnerModule,
+    MatExpansionModule,
     MatDialogModule
 
   ],
