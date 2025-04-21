@@ -1,5 +1,6 @@
 package com.example.skillbridge.controllers;
 
+import com.example.skillbridge.exceptions.ResourceNotFoundException;
 import com.example.skillbridge.models.Comment;
 import com.example.skillbridge.models.BlogPost;
 import com.example.skillbridge.models.User;
@@ -8,9 +9,11 @@ import com.example.skillbridge.services.BlogPostService;
 import com.example.skillbridge.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/comments")
@@ -31,14 +34,32 @@ public class CommentController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Comment createComment(@RequestBody Comment comment) {
-        BlogPost post = blogPostService.getBlogPostById(comment.getPost().getId());
-        User user = userService.getUserById(comment.getUser().getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        comment.setPost(post);
-        comment.setUser(user);
-        return commentService.createComment(comment);
+    public ResponseEntity<?> createComment(@RequestBody Comment comment) {
+        try {
+            BlogPost post = blogPostService.getBlogPostById(comment.getPost().getId());
+            User user = userService.getUserById(comment.getUser().getUserId())
+                    .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+            comment.setPost(post);
+            comment.setUser(user);
+
+            Comment createdComment = commentService.createComment(comment);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdComment);
+
+        } catch (IllegalArgumentException e) {
+            // This handles the bad words exception
+            return ResponseEntity.badRequest().body(
+                    Map.of("error", "Bad Request", "message", e.getMessage())
+            );
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    Map.of("error", "Not Found", "message", e.getMessage())
+            );
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(
+                    Map.of("error", "Internal Server Error", "message", e.getMessage())
+            );
+        }
     }
 
     @GetMapping("/{commentId}")

@@ -36,7 +36,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // ✅ No more deprecated
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/users/login", "/api/users/register", "/api/users/logout", "/api/categories/**", "/api/blog/**", "/error"   ).permitAll()
+                        .requestMatchers("/api/users/login", "/api/users/register", "/api/users/logout", "/api/categories/**", "/api/blog/**", "/error", "/api/comments/**"   ).permitAll()
                         .requestMatchers("/api/blog-posts/**").hasAnyAuthority("USER", "ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/blog-posts/admin/all-with-comments")
                         .hasAuthority("ADMIN")

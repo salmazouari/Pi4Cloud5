@@ -21,6 +21,7 @@ public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
     private final BlogPostRepository blogPostRepository;
     private final UserRepository userRepository;
+    private final BadWordFilterService badWordFilterService; // ✅ Add this line
 
     @Override
     public Comment createComment(Comment comment) {
@@ -31,6 +32,11 @@ public class CommentServiceImpl implements CommentService {
         // Validate user exists
         User user = userRepository.findById(comment.getUser().getUserId())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        // 🚫 Check for bad words
+        if (badWordFilterService.containsBadWords(comment.getContent())) {
+            throw new IllegalArgumentException("Comment contains inappropriate language");
+        }
 
         comment.setPost(post);
         comment.setUser(user);
