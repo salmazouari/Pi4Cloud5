@@ -2,13 +2,19 @@ package com.example.skillbridge.controllers;
 
 import com.example.skillbridge.models.BlogPost;
 import com.example.skillbridge.services.BlogPostService;
+import com.example.skillbridge.services.CommentService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.print.Pageable;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/blog-posts")
@@ -16,9 +22,13 @@ import java.awt.print.Pageable;
 public class BlogPostController {
 
     private final BlogPostService blogPostService;
+    private final CommentService commentService;
 
-    public BlogPostController(BlogPostService blogPostService) {
+
+    public BlogPostController(BlogPostService blogPostService, CommentService commentService) {
         this.blogPostService = blogPostService;
+        this.commentService = commentService;
+
     }
 
     @PostMapping
@@ -49,5 +59,23 @@ public class BlogPostController {
         return blogPostService.getAllBlogPosts();
     }
 
+
+    // Add this new admin endpoint
+    @GetMapping("/admin/all-with-comments")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<Map<String, Object>>> getAllPostsWithComments() {
+        List<BlogPost> posts = blogPostService.getAllBlogPosts();
+
+        List<Map<String, Object>> response = posts.stream()
+                .map(post -> {
+                    Map<String, Object> postData = new LinkedHashMap<>();
+                    postData.put("post", post);
+                    postData.put("comments", commentService.getCommentsByPost(post.getId()));
+                    return postData;
+                })
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(response);
+    }
 
 }
