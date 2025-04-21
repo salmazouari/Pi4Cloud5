@@ -10,6 +10,7 @@ import { User } from '../models/user.model'; // Import User model
   styleUrls: ['./comments-section.component.css']
 })
 export class CommentsSectionComponent implements OnInit {
+  errorMessage: string = '';
   @Input() comments: Comment[] = [];
   @Input() postId!: number; // Receive postId from parent component
 
@@ -32,7 +33,10 @@ export class CommentsSectionComponent implements OnInit {
   }
 
   submitComment() {
+    this.errorMessage = ''; // Reset error message
+
     if (!this.newCommentContent.trim()) {
+      this.errorMessage = 'Comment cannot be empty.';
       return; // Don't submit empty comments
     }
 
@@ -57,6 +61,7 @@ export class CommentsSectionComponent implements OnInit {
         this.newCommentContent = ''; // Reset the form
       },
       error: (err) => {
+        this.errorMessage = err.message; // Display error message from service
         console.error('Error creating comment:', err);
       }
     });
@@ -76,6 +81,7 @@ export class CommentsSectionComponent implements OnInit {
 
   // Save the edited comment
   saveComment(comment: Comment) {
+    this.errorMessage = '';
     if (this.editedCommentContent.trim()) {
       comment.content = this.editedCommentContent;
 
@@ -88,6 +94,7 @@ export class CommentsSectionComponent implements OnInit {
           this.cancelEditing();
         },
         error: (err) => {
+          this.errorMessage = err.message; // Display error message from service
           console.error('Error updating comment:', err);
         }
       });

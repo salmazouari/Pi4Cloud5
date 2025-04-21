@@ -3,6 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Comment } from '../models/comment';
 import { UserService } from './user.service'; // Import UserService to get the token
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +25,17 @@ export class CommentService {
 
   // Create a new comment (POST)
   createComment(comment: Comment): Observable<Comment> {
-    return this.http.post<Comment>(this.baseUrl, comment, { headers: this.getAuthHeaders() });
+    return this.http.post<Comment>(this.baseUrl, comment, { headers: this.getAuthHeaders() }).pipe(
+      catchError(error => {
+        let errorMessage = 'Failed to submit comment';
+
+        if (error.status === 400 && error.error.message) {
+          errorMessage = error.error.message;
+        }
+
+        return throwError(() => new Error(errorMessage));
+      })
+    );
   }
 
   // Get comments for a specific post (GET) - optional: you can skip headers if public

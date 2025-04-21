@@ -29,14 +29,32 @@
     </div>
   </div>
 
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
   <!-- Add Comment Form -->
   <div class="add-comment-form">
     <h4>Add a Comment</h4>
     <form (ngSubmit)="submitComment()">
       <div class="form-group">
-        <textarea [(ngModel)]="newCommentContent" name="content" class="form-control" placeholder="Write your comment..." required></textarea>
+      <textarea
+        [(ngModel)]="newCommentContent"
+        name="content"
+        class="form-control"
+        [class.is-invalid]="errorMessage"
+        placeholder="Write your comment..."
+        required
+      ></textarea>
       </div>
-      <button type="submit" class="btn btn-primary mt-2">Post Comment</button>
+      <button
+        type="submit"
+        class="btn btn-primary mt-2"
+        [disabled]="!newCommentContent.trim()"
+      >
+        Post Comment
+      </button>
     </form>
   </div>
+
 </div>
