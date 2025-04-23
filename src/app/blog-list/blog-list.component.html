@@ -3,8 +3,8 @@
 
   <!-- HERO SECTION -->
   <section class="section-hero overlay inner-page bg-image"
-    [ngStyle]="{'background-image': 'url(assets/images/hero_1.jpg)'}"
-    id="home-section">
+           [ngStyle]="{'background-image': 'url(assets/images/hero_1.jpg)'}"
+           id="home-section">
     <div class="container">
       <div class="row">
         <div class="col-md-12">
@@ -22,15 +22,15 @@
   <!-- END HERO SECTION -->
 
   <!-- SEARCH BAR SECTION -->
-   <!-- Search Input -->
-<div class="mb-4">
-  <input
-    [formControl]="searchControl"
-    type="text"
-    placeholder="🔍 Search posts..."
-    class="form-control"
-  />
-</div>
+  <!-- Search Input -->
+  <div class="mb-4">
+    <input
+      [formControl]="searchControl"
+      type="text"
+      placeholder="🔍 Search posts..."
+      class="form-control"
+    />
+  </div>
 
 
   <!-- BLOG POSTS SECTION -->
@@ -68,10 +68,10 @@
 
           <!-- Delete Button -->
           <div class="mt-2">
-            <button class="btn btn-danger btn-sm" *ngIf="post.id !== undefined" (click)="deletePost(post.id)">
+            <button class="btn btn-danger btn-sm" *ngIf="post.id !== undefined && isPostOwner(post)" (click)="deletePost(post.id)">
               🗑️
             </button>
-            <button class="btn btn-primary btn-sm ml-2" *ngIf="post.id !== undefined" (click)="editPost(post.id)">
+            <button class="btn btn-primary btn-sm ml-2" *ngIf="post.id !== undefined && isPostOwner(post)" (click)="editPost(post.id)">
               ✏️
             </button>
           </div>
