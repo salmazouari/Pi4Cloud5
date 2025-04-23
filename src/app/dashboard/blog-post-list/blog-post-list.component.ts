@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BlogService } from '../../services/blog.service';
+import { CommentService } from '../../services/comment.service';
+
 
 @Component({
   selector: 'app-blog-post-list',
@@ -10,7 +12,7 @@ export class BlogPostListComponent implements OnInit {
   postsWithComments: any[] = [];
   isLoading = true;
 
-  constructor(private blogService: BlogService) { }
+  constructor(private blogService: BlogService, private commentService: CommentService ) { }
 
   ngOnInit(): void {
     this.loadPosts();
@@ -41,4 +43,23 @@ export class BlogPostListComponent implements OnInit {
       });
     }
   }
+
+  deleteComment(commentId: number): void {
+    if (confirm('Are you sure you want to delete this comment?')) {
+      this.commentService.deleteComment(commentId).subscribe({
+        next: () => {
+          // Remove comment from UI
+          this.postsWithComments = this.postsWithComments.map(post => {
+            return {
+              ...post,
+              comments: post.comments.filter((comment: any) => comment.id !== commentId)
+            };
+          });
+        },
+        error: (err) => console.error('Error deleting comment:', err)
+      });
+    }
+  }
+
+
 }
