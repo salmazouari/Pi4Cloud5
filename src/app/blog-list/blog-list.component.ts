@@ -4,6 +4,8 @@ import { BlogPost } from '../models/blog-post';
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { UserService } from '../services/user.service'; // Add this import
+import { User } from '../models/user.model'; // Add this import
 
 @Component({
   selector: 'app-blog-list',
@@ -14,10 +16,12 @@ export class BlogListComponent implements OnInit {
   posts: BlogPost[] = [];
   errorMessage = '';
   searchControl = new FormControl('');
+  currentUser: User | null = null; // Add current user
 
-  constructor(private blogService: BlogService, private router: Router) {}
+  constructor(private blogService: BlogService, private router: Router, private userService: UserService) {}
 
   ngOnInit(): void {
+    this.setupCurrentUser(); // Add user subscription
     this.loadPosts();
 
     this.searchControl.valueChanges.pipe(
@@ -67,4 +71,15 @@ export class BlogListComponent implements OnInit {
   editPost(id: number): void {
     this.router.navigate(['/edit', id]);
   }
+
+  private setupCurrentUser(): void {
+    this.userService.currentUser$.subscribe(user => {
+      this.currentUser = user;
+    });
+  }
+
+  isPostOwner(post: BlogPost): boolean {
+    return this.currentUser?.userId === post.author?.userId;
+  }
+
 }

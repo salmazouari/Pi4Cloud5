@@ -30,6 +30,9 @@ export class CommentsSectionComponent implements OnInit {
   ngOnInit(): void {
     // Retrieve the logged-in user
     this.currentUser = this.userService.getCurrentUser();
+    this.userService.currentUser$.subscribe(user => {
+      this.currentUser = user;
+    });
   }
 
   submitComment() {
@@ -114,4 +117,10 @@ export class CommentsSectionComponent implements OnInit {
       });
     }
   }
+
+  isCommentOwner(comment: Comment): boolean {
+    return this.currentUser?.userId === comment.user?.userId;
+  }
+
+
 }

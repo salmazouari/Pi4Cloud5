@@ -15,7 +15,7 @@
         <p><small>{{ comment.createdAt | date: 'short' }}</small></p>
 
         <!-- Show edit and delete buttons when not in edit mode -->
-        <div *ngIf="editingCommentId !== comment.id">
+        <div *ngIf="editingCommentId !== comment.id && isCommentOwner(comment)">
           <button (click)="startEditing(comment)" class="btn btn-warning btn-sm">✏️</button>
           <button (click)="deleteComment(comment.id!)" class="btn btn-danger btn-sm">🗑️</button>
         </div>

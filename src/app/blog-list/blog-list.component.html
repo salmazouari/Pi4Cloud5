@@ -68,10 +68,10 @@
 
           <!-- Delete Button -->
           <div class="mt-2">
-            <button class="btn btn-danger btn-sm" *ngIf="post.id !== undefined" (click)="deletePost(post.id)">
+            <button class="btn btn-danger btn-sm" *ngIf="post.id !== undefined && isPostOwner(post)" (click)="deletePost(post.id)">
               🗑️
             </button>
-            <button class="btn btn-primary btn-sm ml-2" *ngIf="post.id !== undefined" (click)="editPost(post.id)">
+            <button class="btn btn-primary btn-sm ml-2" *ngIf="post.id !== undefined && isPostOwner(post)" (click)="editPost(post.id)">
               ✏️
             </button>
           </div>
