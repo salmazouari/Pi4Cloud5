@@ -36,3 +36,14 @@
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 </mat-table>
+
+<hr class="my-4">
+
+<h3>Post Statistics by Category</h3>
+<div style="max-width: 700px; margin: auto;">
+  <canvas baseChart
+          [data]="{ labels: barChartLabels, datasets: [{ data: barChartData, label: 'Posts' }] }"
+          [type]="barChartType"
+          [options]="barChartOptions">
+  </canvas>
+</div>

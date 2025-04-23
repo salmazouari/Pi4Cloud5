@@ -4,6 +4,8 @@ import { Category } from '../../../models/category';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { CategoryFormComponent } from '../category-form/category-form.component';
+import { HttpClient } from '@angular/common/http';
+import { ChartConfiguration, ChartType } from 'chart.js';
 
 @Component({
   selector: 'app-category-list',
@@ -13,15 +15,21 @@ import { CategoryFormComponent } from '../category-form/category-form.component'
 export class CategoryListComponent {
   categories: Category[] = [];
   displayedColumns: string[] = ['name', 'createdAt', 'actions'];
+  // Chart Data
+  public barChartLabels: string[] = [];
+  public barChartData: number[] = [];
+  public barChartType: 'bar' = 'bar';
 
   constructor(
     private categoryService: CategoryService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private http: HttpClient
   ) { }
 
   ngOnInit(): void {
     this.loadCategories();
+    this.loadPostStats(); // 🚀 Load chart data
   }
 
   loadCategories() {
@@ -34,7 +42,7 @@ export class CategoryListComponent {
   openCreateDialog() {
     const dialogRef = this.dialog.open(CategoryFormComponent, {
       width: '400px',
-      position: { 
+      position: {
         top: '50vh',
         left: '50vw'
       },
@@ -49,7 +57,7 @@ export class CategoryListComponent {
   openEditDialog(category: Category) {
     const dialogRef = this.dialog.open(CategoryFormComponent, {
       width: '400px',
-      position: { 
+      position: {
         top: '50vh',
         left: '50vw'
       },
@@ -70,4 +78,30 @@ export class CategoryListComponent {
       });
     }
   }
+
+  loadPostStats() {
+    this.http.get<any[]>('http://localhost:8080/api/blog-posts/stats/posts-by-category')
+      .subscribe({
+        next: (data) => {
+          this.barChartLabels = data.map(item => item.category);
+          this.barChartData = data.map(item => item.count);
+        },
+        error: (err) => console.error('Error loading post stats:', err)
+      });
+  }
+
+
+  // Optional chart options
+  public barChartOptions: ChartConfiguration<'bar'>['options'] = {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: 'Posts by Category'
+      }
+    }
+  };
+
+
 }

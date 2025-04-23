@@ -14,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { NgChartsModule } from 'ng2-charts';
 
 
 
@@ -77,6 +78,7 @@ import { BlogPostListComponent } from './dashboard/blog-post-list/blog-post-list
     CommonModule,
     MatProgressSpinnerModule,
     MatExpansionModule,
+    NgChartsModule,
     MatDialogModule
 
   ],
