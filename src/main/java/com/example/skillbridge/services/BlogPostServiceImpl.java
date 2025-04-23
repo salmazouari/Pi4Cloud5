@@ -28,6 +28,7 @@ public class BlogPostServiceImpl implements BlogPostService {
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
     private final UserService userService; // Add this dependency
+    private final EmailService emailService; // Add this
 
     @Override
     public BlogPost createBlogPost(BlogPost blogPost) {
@@ -47,7 +48,14 @@ public class BlogPostServiceImpl implements BlogPostService {
 
         blogPost.setAuthor(author);
         blogPost.setCategory(category);
-        return blogPostRepository.save(blogPost);
+        BlogPost savedPost = blogPostRepository.save(blogPost);
+        try {
+            emailService.sendNewPostNotification(savedPost);
+        } catch (Exception e) {
+            // Log the error but don't fail the operation
+            System.err.println("Failed to send notification email: " + e.getMessage());
+        }
+        return savedPost;
     }
 
     @Override
