@@ -127,4 +127,9 @@ public class BlogPostServiceImpl implements BlogPostService {
         return blogPostRepository.findByDeletedAtIsNullAndTitleContainingIgnoreCaseOrContentContainingIgnoreCase(keyword, keyword);
     }
 
+    @Override
+    public List<Object[]> getPostCountByCategory() {
+        return blogPostRepository.countPostsByCategory();
+    }
+
 }

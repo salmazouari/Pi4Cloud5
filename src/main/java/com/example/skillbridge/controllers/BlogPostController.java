@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.print.Pageable;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,6 +76,22 @@ public class BlogPostController {
                     return postData;
                 })
                 .collect(Collectors.toList());
+
+        return ResponseEntity.ok(response);
+    }
+
+
+    @GetMapping("/stats/posts-by-category")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    public ResponseEntity<List<Map<String, Object>>> getPostCountByCategory() {
+        List<Object[]> stats = blogPostService.getPostCountByCategory();
+
+        List<Map<String, Object>> response = stats.stream().map(row -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("category", row[0]);
+            map.put("count", row[1]);
+            return map;
+        }).toList();
 
         return ResponseEntity.ok(response);
     }

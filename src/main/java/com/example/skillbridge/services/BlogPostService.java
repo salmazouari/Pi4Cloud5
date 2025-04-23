@@ -15,4 +15,5 @@ public interface BlogPostService {
     void deleteBlogPost(Long postId, Authentication authentication);
     List<BlogPost> getActiveBlogPosts();
     List<BlogPost> searchBlogPosts(String keyword);
+    List<Object[]> getPostCountByCategory();
 }
