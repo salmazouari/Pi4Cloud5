@@ -29,7 +29,7 @@ export class BlogListComponent implements OnInit {
           return this.blogService.getPosts();
         }
         return this.blogService.searchPosts(safeQuery);
-      })      
+      })
     ).subscribe({
       next: posts => this.posts = posts,
       error: err => {

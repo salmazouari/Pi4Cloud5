@@ -59,8 +59,8 @@ export class BlogService {
 
   generateAIContent(idea: string): Observable<{ content: string }> {
     return this.http.post<{ content: string }>(
-      this.aiGenerateUrl, 
-      { idea }, 
+      this.aiGenerateUrl,
+      { idea },
       { headers: this.getAuthHeaders() }
     );
   }
@@ -76,5 +76,5 @@ getAllPostsWithComments(): Observable<any[]> {
     { headers: this.getAuthHeaders() }
   );
 }
-  
+
 }
