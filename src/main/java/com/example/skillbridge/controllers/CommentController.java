@@ -10,6 +10,7 @@ import com.example.skillbridge.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -78,13 +79,14 @@ public class CommentController {
     }
 
     @PutMapping("/{commentId}")
-    public Comment updateComment(@PathVariable Long commentId, @RequestBody Comment comment) {
-        return commentService.updateComment(commentId, comment);
+    public Comment updateComment(@PathVariable Long commentId, @RequestBody Comment comment, Authentication authentication) {
+
+        return commentService.updateComment(commentId, comment, authentication);
     }
 
     @DeleteMapping("/{commentId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteComment(@PathVariable Long commentId) {
-        commentService.deleteComment(commentId);
+    public void deleteComment(@PathVariable Long commentId, Authentication authentication) {
+        commentService.deleteComment(commentId, authentication);
     }
 }

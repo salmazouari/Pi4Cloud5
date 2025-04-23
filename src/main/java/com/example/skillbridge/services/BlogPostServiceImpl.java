@@ -8,9 +8,12 @@ import com.example.skillbridge.repositories.BlogPostRepository;
 import com.example.skillbridge.repositories.CategoryRepository;
 import com.example.skillbridge.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+//import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.core.Authentication;  // Correct import
 
 import java.awt.print.Pageable;
 import java.time.Instant;
@@ -24,6 +27,7 @@ public class BlogPostServiceImpl implements BlogPostService {
     private final BlogPostRepository blogPostRepository;
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
+    private final UserService userService; // Add this dependency
 
     @Override
     public BlogPost createBlogPost(BlogPost blogPost) {
@@ -66,8 +70,14 @@ public class BlogPostServiceImpl implements BlogPostService {
     }
 
     @Override
-    public BlogPost updateBlogPost(Long postId, BlogPost updatedBlogPost) {
+    public BlogPost updateBlogPost(Long postId, BlogPost updatedBlogPost, Authentication authentication) {
         BlogPost existingPost = getBlogPostById(postId);
+
+        User currentUser = userService.getCurrentUser(authentication);
+
+        if (!existingPost.getAuthor().getUserId().equals(currentUser.getUserId())) {
+            throw new AccessDeniedException("You are not authorized to update this post");
+        }
 
         // Do not allow updating the author, keep the original author
         updatedBlogPost.setAuthor(existingPost.getAuthor()); // Ensure author is not updated
@@ -100,7 +110,14 @@ public class BlogPostServiceImpl implements BlogPostService {
     }
 
     @Override
-    public void deleteBlogPost(Long postId) {
+    public void deleteBlogPost(Long postId, Authentication authentication) {
+        BlogPost post = getBlogPostById(postId);
+        User currentUser = userService.getCurrentUser(authentication);
+        if (currentUser.getRole() != User.Role.ADMIN &&
+                !post.getAuthor().getUserId().equals(currentUser.getUserId())) {
+            throw new AccessDeniedException("You are not authorized to delete this post");
+        }
+
         blogPostRepository.deleteById(postId);
     }
 

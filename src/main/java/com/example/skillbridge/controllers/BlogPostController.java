@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.print.Pageable;
@@ -44,14 +45,14 @@ public class BlogPostController {
     }
 
     @PutMapping("/{id}")
-    public BlogPost updateBlogPost(@PathVariable Long id, @RequestBody BlogPost blogPost) {
-        return blogPostService.updateBlogPost(id, blogPost);
+    public BlogPost updateBlogPost(@PathVariable Long id, @RequestBody BlogPost blogPost, Authentication authentication) {
+        return blogPostService.updateBlogPost(id, blogPost, authentication);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteBlogPost(@PathVariable Long id) {
-        blogPostService.deleteBlogPost(id);
+    public void deleteBlogPost(@PathVariable Long id, Authentication authentication) {
+        blogPostService.deleteBlogPost(id, authentication);
     }
 
     @GetMapping

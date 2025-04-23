@@ -2,6 +2,7 @@ package com.example.skillbridge.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.Map;
@@ -9,7 +10,17 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // Add this handler for bad words
+    // 1. Handle authorization errors first
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<Map<String, String>> handleAccessDeniedException(AccessDeniedException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(Map.of(
+                        "error", "Forbidden",
+                        "message", ex.getMessage()
+                ));
+    }
+
+    // 2. Handle validation errors (bad words)
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Map<String, String>> handleBadWordsException(IllegalArgumentException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -19,7 +30,7 @@ public class GlobalExceptionHandler {
                 ));
     }
 
-    // Add this handler for service errors
+    // 3. Handle specific service errors
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Map<String, String>> handleServiceErrors(RuntimeException ex) {
         return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
@@ -29,7 +40,7 @@ public class GlobalExceptionHandler {
                 ));
     }
 
-    // Generic exception handler
+    // 4. Generic exception handler
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, String>> handleAllExceptions(Exception ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

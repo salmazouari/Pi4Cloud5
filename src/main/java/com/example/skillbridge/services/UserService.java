@@ -1,6 +1,8 @@
 package com.example.skillbridge.services;
 
 import com.example.skillbridge.models.User;
+import org.springframework.security.core.Authentication;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -15,4 +17,5 @@ public interface UserService {
     // Authentication operations
     User register(User user);
     User login(String username, String password);
+    User getCurrentUser(org.springframework.security.core.Authentication authentication);
 }
