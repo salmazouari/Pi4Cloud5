@@ -39,6 +39,7 @@ import { CategoryFormComponent } from './dashboard/categories/category-form/cate
 import {MatTableModule} from "@angular/material/table";
 import {MatDialogModule} from "@angular/material/dialog";
 import { BlogPostListComponent } from './dashboard/blog-post-list/blog-post-list.component';
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
   declarations: [
@@ -79,7 +80,8 @@ import { BlogPostListComponent } from './dashboard/blog-post-list/blog-post-list
     MatProgressSpinnerModule,
     MatExpansionModule,
     NgChartsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTooltipModule
 
   ],
   providers: [

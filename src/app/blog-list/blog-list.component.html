@@ -19,11 +19,8 @@
     </div>
   </section>
 
-  <!-- END HERO SECTION -->
-
   <!-- SEARCH BAR SECTION -->
-  <!-- Search Input -->
-  <div class="mb-4">
+  <div class="container mt-4">
     <input
       [formControl]="searchControl"
       type="text"
@@ -32,48 +29,48 @@
     />
   </div>
 
-
   <!-- BLOG POSTS SECTION -->
   <section class="site-section">
     <div class="container">
       <div class="row mb-5">
-        <!-- Use *ngFor to iterate over your blog posts -->
         <div class="col-md-6 col-lg-4 mb-5" *ngFor="let post of posts">
-          <!-- Clickable image linking to the blog post -->
-          <a [routerLink]="['/blog', post.id]">
-            <img
-              [src]="post.imageUrl || 'assets/images/hero_1.jpg'"
-              alt="Image"
-              class="img-fluid rounded mb-4"
-            />
-          </a>
-
-          <!-- Post Title -->
-          <h3>
-            <a [routerLink]="['/blog', post.id]" class="text-black">
-              {{ post.title }}
+          <div class="card h-100">
+            <a [routerLink]="['/blog', post.id]">
+              <img
+                [src]="post.imageUrl || 'assets/images/hero_1.jpg'"
+                class="card-img-top"
+                alt="Blog Post Image"
+              />
             </a>
-          </h3>
-
-          <!-- Date and Comment Count -->
-          <div>
-            <!-- Display Created Date -->
-            <strong>Created on:</strong> {{ post.createdAt | date: 'MMM d, y' }}
-            <span *ngIf="post.updatedAt"><strong> | Updated on:</strong> {{ post.updatedAt | date: 'MMM d, y' }}</span>
-            <span class="mx-2">|</span>
-            <a href="#">
-              {{ post.comments?.length || 0 }} Comments
-            </a>
-          </div>
-
-          <!-- Delete Button -->
-          <div class="mt-2">
-            <button class="btn btn-danger btn-sm" *ngIf="post.id !== undefined && isPostOwner(post)" (click)="deletePost(post.id)">
-              🗑️
-            </button>
-            <button class="btn btn-primary btn-sm ml-2" *ngIf="post.id !== undefined && isPostOwner(post)" (click)="editPost(post.id)">
-              ✏️
-            </button>
+            <div class="card-body">
+              <h5 class="card-title">
+                <a [routerLink]="['/blog', post.id]" class="text-dark">{{ post.title }}</a>
+              </h5>
+              <p class="card-text">
+                <strong>Created on:</strong> {{ post.createdAt | date: 'MMM d, y' }}
+                <span *ngIf="post.updatedAt"><strong> | Updated on:</strong> {{ post.updatedAt | date: 'MMM d, y' }}</span>
+                <span class="mx-2">|</span>
+                <a [routerLink]="['/blog', post.id]" fragment="comments">
+                 <!-- {{ post.comments?.length || 0 }} Comments -->
+                </a>
+              </p>
+              <div class="mt-2">
+                <button
+                  class="btn btn-danger btn-sm"
+                  *ngIf="post.id !== undefined && isPostOwner(post)"
+                  (click)="deletePost(post.id)"
+                >
+                  🗑️
+                </button>
+                <button
+                  class="btn btn-primary btn-sm ml-2"
+                  *ngIf="post.id !== undefined && isPostOwner(post)"
+                  (click)="editPost(post.id)"
+                >
+                  ✏️
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -93,7 +90,6 @@
           </div>
         </div>
       </div>
-
     </div>
   </section>
 </div>

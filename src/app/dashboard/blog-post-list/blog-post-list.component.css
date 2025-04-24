@@ -1,0 +1,81 @@
+.post-management {
+  padding: 1rem;
+  background-color: #fafafa; /* Light background for contrast */
+  border-radius: 4px;
+}
+
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+.posts-accordion {
+  margin-top: 1rem;
+}
+
+mat-expansion-panel {
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+mat-panel-title {
+  font-weight: bold;
+}
+
+.comments-count {
+  margin-left: 8px;
+  color: #757575; /* Muted color for secondary info */
+}
+
+.post-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
+.post-content {
+  margin-bottom: 1rem;
+}
+
+.comments-section {
+  border-top: 1px solid #e0e0e0;
+  padding-top: 1rem;
+}
+
+.comment-item {
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background-color: #ffffff;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.comment-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.author {
+  font-weight: bold;
+}
+
+.date {
+  color: #757575;
+  margin-left: 8px;
+}
+
+.deleted-icon {
+  color: #f44336; /* Red for deleted comments */
+  margin-left: 8px;
+}
+
+.comment-content {
+  margin-top: 0.5rem;
+}
+
+.no-comments {
+  color: #757575;
+  font-style: italic;
+}

@@ -1,0 +1,86 @@
+/* Sidebar Container */
+.sidebar {
+  background-color: #f8f9fa; /* Light gray background */
+  padding: 20px;
+  border-right: 1px solid #dee2e6; /* Subtle border */
+  width: 250px; /* Fixed width for consistency */
+  min-height: 100vh; /* Full height for a sticky effect */
+}
+
+/* Sidebar Section */
+.sidebar-section {
+  margin-bottom: 20px;
+}
+
+/* Sidebar Title */
+.sidebar-title {
+  font-size: 18px;
+  font-weight: 600; /* Slightly bolder than bold */
+  margin-bottom: 15px;
+  color: #333; /* Darker text for contrast */
+}
+
+/* Category List */
+.category-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Category Item */
+.category-item {
+  padding: 12px 0; /* Increased padding for touch-friendliness */
+  border-bottom: 1px solid #dee2e6;
+}
+
+/* Category Link */
+.category-link {
+  text-decoration: none;
+  color: #000;
+  display: flex; /* Flex for aligning name and badge */
+  align-items: center;
+  padding: 5px 10px; /* Inner padding for larger clickable area */
+  border-radius: 4px; /* Subtle rounding */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
+}
+
+.category-link:hover {
+  background-color: #e9ecef; /* Light hover effect */
+  color: #007bff; /* Blue text on hover */
+}
+
+/* Badge for Post Count (Optional) */
+.badge {
+  background-color: #007bff; /* Blue background */
+  color: #fff;
+  padding: 3px 8px;
+  border-radius: 12px; /* Pill shape */
+  font-size: 12px;
+  margin-left: 8px; /* Space from category name */
+}
+
+/* Error Message */
+.alert {
+  margin-top: 20px;
+  padding: 10px;
+  font-size: 14px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%; /* Full width on small screens */
+    min-height: auto; /* Remove fixed height */
+    padding: 15px;
+    border-right: none; /* Remove border */
+    border-bottom: 1px solid #dee2e6; /* Add bottom border */
+  }
+
+  .category-item {
+    padding: 8px 0; /* Reduced padding */
+  }
+
+  .category-link {
+    padding: 5px 8px;
+  }
+}

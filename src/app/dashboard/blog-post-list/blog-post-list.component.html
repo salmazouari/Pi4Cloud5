@@ -1,60 +1,57 @@
 <div class="post-management">
-    <h2>Blog Posts Management</h2>
+  <h2>Blog Posts Management</h2>
 
-    <div *ngIf="isLoading" class="loading-spinner">
-      <mat-spinner diameter="50"></mat-spinner>
-    </div>
+  <div *ngIf="isLoading" class="loading-spinner">
+    <mat-spinner diameter="50"></mat-spinner>
+  </div>
 
-    <mat-accordion class="posts-accordion">
-      <mat-expansion-panel *ngFor="let item of postsWithComments">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            {{ item.post.title }}
-          </mat-panel-title>
-          <mat-panel-description>
-            {{ item.post.createdAt | date:'mediumDate' }}
-            <span class="comments-count">
-              ({{ item.comments.length }} comments)
-            </span>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
+  <mat-accordion class="posts-accordion">
+    <mat-expansion-panel *ngFor="let item of postsWithComments">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ item.post.title }}
+        </mat-panel-title>
+        <mat-panel-description>
+          {{ item.post.createdAt | date:'mediumDate' }}
+          <span class="comments-count">
+            ({{ item.comments.length }} comments)
+          </span>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
 
-        <div class="post-details">
-          <div class="post-actions">
-            <button mat-icon-button color="warn" (click)="deletePost(item.post.id)">
-              <mat-icon>delete</mat-icon>
-            </button>
-            <button mat-icon-button color="primary" [routerLink]="['/edit-post', item.post.id]">
-              <mat-icon>edit</mat-icon>
-            </button>
-          </div>
+      <div class="post-details">
+        <div class="post-actions">
+          <button mat-icon-button color="primary" [routerLink]="['/edit-post', item.post.id]" matTooltip="Edit Post">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="deletePost(item.post.id)" matTooltip="Delete Post">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
 
-          <div class="post-content">
-            <h4>Content:</h4>
-            <p>{{ item.post.content }}</p>
-          </div>
+        <div class="post-content">
+          <h4>Content</h4>
+          <p>{{ item.post.content }}</p>
+        </div>
 
-          <div class="comments-section">
-            <h4>Comments:</h4>
-            <div *ngFor="let comment of item.comments" class="comment-item">
-              <div class="comment-header">
-                <span class="author">{{ comment.user.firstName }} {{ comment.user.lastName }}</span>
-                <span class="date">{{ comment.createdAt | date:'medium' }}</span>
-                <mat-icon *ngIf="comment.deletedAt" class="deleted-icon">delete_forever</mat-icon>
-
-                <!-- 🆕 Delete Comment Button -->
-                <button mat-icon-button color="warn" (click)="deleteComment(comment.id)" aria-label="Delete comment">
-                  <mat-icon>delete</mat-icon>
-                </button>
-
-              </div>
-              <p class="comment-content">{{ comment.content }}</p>
+        <div class="comments-section">
+          <h4>Comments</h4>
+          <div *ngFor="let comment of item.comments" class="comment-item">
+            <div class="comment-header">
+              <span class="author">{{ comment.user.firstName }} {{ comment.user.lastName }}</span>
+              <span class="date">{{ comment.createdAt | date:'medium' }}</span>
+              <mat-icon *ngIf="comment.deletedAt" class="deleted-icon" matTooltip="Comment Deleted">delete_forever</mat-icon>
+              <button mat-icon-button color="warn" (click)="deleteComment(comment.id)" matTooltip="Delete Comment" aria-label="Delete comment">
+                <mat-icon>delete</mat-icon>
+              </button>
             </div>
-            <div *ngIf="item.comments.length === 0" class="no-comments">
-              No comments for this post
-            </div>
+            <p class="comment-content">{{ comment.content }}</p>
+          </div>
+          <div *ngIf="item.comments.length === 0" class="no-comments">
+            No comments for this post
           </div>
         </div>
-      </mat-expansion-panel>
-    </mat-accordion>
-  </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

@@ -1,0 +1,27 @@
+/* src/app/blog-list/blog-list.component.css */
+.card-img-top {
+  height: 200px; /* Adjust this value based on your preference */
+  object-fit: cover;
+}
+
+.card {
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: scale(1.02);
+}
+
+.card-title a {
+  text-decoration: none;
+}
+
+.card-title a:hover {
+  text-decoration: underline;
+}
+
+.form-control {
+  max-width: 500px; /* Limits the search bar width for better aesthetics */
+  margin: 0 auto; /* Centers the search bar */
+}

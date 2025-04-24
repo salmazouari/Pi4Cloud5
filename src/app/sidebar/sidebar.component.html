@@ -8,7 +8,8 @@
       <li *ngFor="let category of categories" class="category-item">
         <a routerLink="/category/{{category.id}}" class="category-link">
           {{ category.name }}
-         <!-- <span class="badge">{{ category.postCount }}</span> -->
+          <!-- Uncomment the badge if you want to display post counts -->
+          <!-- <span class="badge">{{ category.postCount }}</span> -->
         </a>
       </li>
     </ul>

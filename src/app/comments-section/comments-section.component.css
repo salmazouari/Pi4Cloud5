@@ -1,0 +1,96 @@
+/* Comments Section Container */
+.comments-section {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+}
+
+/* Heading */
+.comments-section h3 {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+/* Individual Comment */
+.comment {
+  display: flex;
+  align-items: flex-start;
+  padding: 15px 0;
+  border-bottom: 1px solid #eee;
+}
+
+/* Avatar */
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 15px;
+  object-fit: cover; /* Ensures the image fills the circle nicely */
+}
+
+/* Comment Content */
+.comment-content {
+  flex: 1;
+}
+
+/* Username and "said:" */
+.comment-content p:first-child {
+  margin-bottom: 5px;
+  font-size: 1rem;
+}
+
+/* Comment Text */
+.comment-content p:nth-child(2) {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Date */
+.comment-content p:last-child {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 5px;
+}
+
+/* Action Buttons (Edit/Delete or Save/Cancel) */
+.comment-content div {
+  margin-top: 10px;
+}
+
+/* Space Between Buttons */
+.comment-content button + button {
+  margin-left: 5px;
+}
+
+/* Editing Textarea */
+.comment-content textarea.form-control {
+  min-height: 100px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 1rem;
+}
+
+/* Add Comment Form */
+.add-comment-form {
+  margin-top: 30px;
+}
+
+.add-comment-form h4 {
+  font-size: 1.25rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.add-comment-form textarea.form-control {
+  min-height: 100px;
+  font-size: 1rem;
+}
+
+/* Error Message */
+.alert-danger {
+  margin-top: 20px;
+  font-size: 0.9rem;
+}
