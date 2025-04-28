@@ -1,0 +1,21 @@
+<!-- sidebar.component.html -->
+<nav class="sidebar">
+  <!-- Existing sidebar content -->
+
+  <div class="sidebar-section">
+    <h4 class="sidebar-title">Categories</h4>
+    <ul class="category-list">
+      <li *ngFor="let category of categories" class="category-item">
+        <a routerLink="/category/{{category.id}}" class="category-link">
+          {{ category.name }}
+          <!-- Uncomment the badge if you want to display post counts -->
+          <!-- <span class="badge">{{ category.postCount }}</span> -->
+        </a>
+      </li>
+    </ul>
+
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,62 @@
+/* Hero Section */
+.section-hero {
+  min-height: 50vh; /* Responsive height */
+}
+
+@media (min-width: 768px) {
+  .section-hero {
+    min-height: 70vh; /* Taller on larger screens */
+  }
+}
+
+.text-white {
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Improves readability over background */
+}
+
+/* Blog Content */
+.blog-content p {
+  font-size: 1.1rem;
+  line-height: 1.6; /* Better readability */
+}
+
+.blog-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle depth */
+}
+
+/* Blockquote */
+.blockquote {
+  background-color: #f8f9fa; /* Light background */
+  border-left: 5px solid #007bff; /* Accent color */
+  padding: 15px;
+  margin: 20px 0; /* Spacing */
+}
+
+/* Sidebar */
+.sidebar {
+  background-color: #f8f9fa; /* Card-like appearance */
+  padding: 20px;
+  border-radius: 5px;
+}
+
+/* Links */
+a {
+  color: #007bff; /* Primary color */
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #0056b3; /* Darker shade on hover */
+}
+
+/* Fade-In Animation */
+.animate__animated.animate__fadeIn {
+  animation: fadeIn 1s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

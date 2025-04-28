@@ -1,0 +1,99 @@
+<!-- HERO SECTION -->
+<section class="section-hero overlay inner-page bg-image"
+         [ngStyle]="{'background-image': 'url(assets/images/hero_1.jpg)'}"
+         id="home-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="custom-breadcrumbs mb-0">
+          <a routerLink="/">Home</a>
+          <span class="mx-2 slash">/</span>
+          <span class="text-white"><strong>Post Blog</strong></span>
+        </div>
+        <h1 class="text-white">Post a Blog</h1>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORM SECTION -->
+<section class="site-section">
+  <div class="container">
+    <div class="row align-items-center mb-5">
+      <div class="col-lg-8 mb-4 mb-lg-0">
+        <h2>Post a Blog</h2>
+      </div>
+    </div>
+    <div class="row mb-5">
+      <div class="col-lg-12">
+        <form class="p-4 p-md-5 border rounded shadow-sm" [formGroup]="blogForm" (ngSubmit)="onSubmit()" id="blogForm">
+          <h3 class="text-black mb-5 border-bottom pb-2">Blog Details</h3>
+
+          <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title" formControlName="title" placeholder="e.g. First Blog Post">
+            <div *ngIf="blogForm.get('title')?.invalid && blogForm.get('title')?.touched" class="text-danger">
+              Title is required.
+            </div>
+          </div>
+
+          <!-- Content Section with AI Generation -->
+          <div class="form-group">
+            <label for="content">Content
+              <button type="button"
+                      class="btn btn-sm btn-outline-primary ml-2"
+                      (click)="generateAIContent()"
+                      [disabled]="isGenerating">
+                <span *ngIf="!isGenerating">Generate with AI</span>
+                <span *ngIf="isGenerating">
+                  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  Generating...
+                </span>
+              </button>
+            </label>
+
+            <div *ngIf="generationError" class="alert alert-danger mt-2">
+              {{ generationError }}
+            </div>
+
+            <textarea class="form-control" id="content" formControlName="content" rows="10"
+                      placeholder="Write your blog content here..."></textarea>
+
+            <div *ngIf="blogForm.get('content')?.invalid && blogForm.get('content')?.touched"
+                 class="text-danger">
+              Content is required.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="slug">Slug</label>
+            <input type="text" class="form-control" id="slug" formControlName="slug" placeholder="e.g. first-blog-post">
+            <div *ngIf="blogForm.get('slug')?.invalid && blogForm.get('slug')?.touched" class="text-danger">
+              Slug is required.
+            </div>
+          </div>
+
+          <div class="form-group" formGroupName="category">
+            <label for="category">Category</label>
+            <select class="form-control" id="category" formControlName="id">
+              <option value="" disabled>Select Category</option>
+              <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+            </select>
+            <div *ngIf="blogForm.get('category.id')?.invalid && blogForm.get('category.id')?.touched" class="text-danger">
+              Category is required.
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-6">
+              <button class="btn btn-block btn-light btn-md" type="button" (click)="preview()">Preview</button>
+            </div>
+            <div class="col-6">
+              <button class="btn btn-block btn-primary btn-md" type="submit">Save Blog</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

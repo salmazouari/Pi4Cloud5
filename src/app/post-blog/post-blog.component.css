@@ -1,0 +1,64 @@
+/* Form Container */
+form {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Labels */
+label {
+  font-weight: 600;
+  color: #333;
+}
+
+/* Input Fields */
+.form-control {
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 16px;
+}
+
+/* Textarea */
+textarea.form-control {
+  resize: vertical;
+}
+
+/* Error Messages */
+.text-danger {
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+/* AI Generation Button */
+.btn-outline-primary {
+  border-color: #007bff;
+  color: #007bff;
+}
+
+.btn-outline-primary:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+/* Preview and Submit Buttons */
+.btn-light, .btn-primary {
+  transition: all 0.3s ease;
+}
+
+.btn-light:hover {
+  background-color: #f8f9fa;
+  border-color: #dee2e6;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .row > div {
+    margin-bottom: 15px;
+  }
+}

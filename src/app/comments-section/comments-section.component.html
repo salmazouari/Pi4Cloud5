@@ -1,0 +1,59 @@
+<div class="comments-section">
+  <h3>Comments</h3>
+
+  <!-- Display Comments -->
+  <div *ngFor="let comment of comments">
+    <div class="comment">
+      <img [src]="comment.user.imageUrl || 'assets/images/default-avatar.png'" alt="User Avatar" class="avatar">
+      <div class="comment-content">
+        <p><strong>{{ comment.user.username || 'Anonymous' }}</strong> said:</p>
+
+        <!-- Edit content when editing -->
+        <textarea *ngIf="editingCommentId === comment.id" [(ngModel)]="editedCommentContent" class="form-control"></textarea>
+        <p *ngIf="editingCommentId !== comment.id">{{ comment.content }}</p>
+
+        <p><small>{{ comment.createdAt | date: 'short' }}</small></p>
+
+        <!-- Show edit and delete buttons when not in edit mode -->
+        <div *ngIf="editingCommentId !== comment.id && isCommentOwner(comment)">
+          <button (click)="startEditing(comment)" class="btn btn-warning btn-sm">✏️</button>
+          <button (click)="deleteComment(comment.id!)" class="btn btn-danger btn-sm">🗑️</button>
+        </div>
+
+        <!-- Show save and cancel buttons when editing -->
+        <div *ngIf="editingCommentId === comment.id">
+          <button (click)="saveComment(comment)" class="btn btn-success btn-sm">Save</button>
+          <button (click)="cancelEditing()" class="btn btn-secondary btn-sm">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Add Comment Form -->
+  <div class="add-comment-form">
+    <h4>Add a Comment</h4>
+    <form (ngSubmit)="submitComment()">
+      <div class="form-group">
+        <textarea
+          [(ngModel)]="newCommentContent"
+          name="content"
+          class="form-control"
+          [class.is-invalid]="errorMessage"
+          placeholder="Write your comment..."
+          required
+        ></textarea>
+      </div>
+      <button
+        type="submit"
+        class="btn btn-primary mt-2"
+        [disabled]="!newCommentContent.trim()"
+      >
+        Post Comment
+      </button>
+    </form>
+  </div>
+</div>

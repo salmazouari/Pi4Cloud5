@@ -1,0 +1,60 @@
+<!-- Hero Section -->
+<section class="section-hero overlay inner-page bg-image"
+         [ngStyle]="{ 'background-image': 'url(' + (post.imageUrl || 'assets/images/hero_1.jpg') + ')' }"
+         id="home-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="custom-breadcrumbs mb-0">
+          <span class="slash">Posted by</span> {{ post.author.username || 'Admin' }}
+          <span class="mx-2 slash">•</span>
+          <span class="text-white"><strong>Created on:</strong> {{ post.createdAt | date: 'MMM d, y' }}</span>
+          <span *ngIf="post.updatedAt" class="mx-2 slash">•</span>
+          <span *ngIf="post.updatedAt" class="text-white"><strong>Updated on:</strong> {{ post.updatedAt | date: 'MMM d, y' }}</span>
+        </div>
+        <h1 class="text-white">{{ post.title }}</h1>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Main Content Section -->
+<section class="site-section" id="next-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 blog-content">
+        <!-- Loading State -->
+        <div *ngIf="isLoading" class="loading-state text-center">
+          <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+          <p>Loading...</p>
+        </div>
+
+        <!-- Error State -->
+        <div *ngIf="error" class="error-state text-danger text-center">
+          <p>{{ error }}</p>
+        </div>
+
+        <!-- Actual Content -->
+        <div *ngIf="!isLoading && !error" class="animate__animated animate__fadeIn">
+          <h3 class="mb-4">{{ post.title }}</h3>
+          <p class="lead">{{ post.content }}</p>
+          <p><img [src]="post.imageUrl" alt="Image" class="img-fluid rounded shadow"></p>
+          <blockquote class="blockquote">
+            <p>{{ post.content }}</p>
+          </blockquote>
+          <div class="pt-5">
+            <p>Categories: <a href="#">{{ post.category.name }}</a></p>
+          </div>
+          <app-comments-section [comments]="comments" [postId]="post.id ?? 0"></app-comments-section>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="col-lg-4 sidebar pl-lg-5">
+        <app-sidebar></app-sidebar>
+      </div>
+    </div>
+  </div>
+</section>
