@@ -1,12 +1,6 @@
 package com.esprit.microservice.user.restController;
-
-import com.esprit.microservice.user.security.JwtUtil;
-import com.esprit.microservice.user.security.TokenBlacklistService;
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -22,12 +16,6 @@ import org.springframework.http.ResponseEntity;
 public class UserRestAPI {
     @Autowired
     private IUserService userService;
-    @Autowired
-    private JwtUtil jwtUtil;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private TokenBlacklistService tokenBlacklistService;
 
     // Get all users
     @GetMapping
@@ -85,9 +73,9 @@ public class UserRestAPI {
             if (userDetails.isActive() != existingUser.isActive()) {
                 existingUser.setActive(userDetails.isActive());
             }
-            if (userDetails.getPassword() != null) {
-                existingUser.setPassword(passwordEncoder.encode(userDetails.getPassword()));
-            }
+//            if (userDetails.getPassword() != null) {
+//                existingUser.setPassword(passwordEncoder.encode(userDetails.getPassword()));
+//            }
 
             // Save the updated user
             User updatedUser = userService.updateUser(existingUser);
@@ -107,62 +95,6 @@ public class UserRestAPI {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete user: " + e.getMessage());
         }
-    }
-
-    // Modify existing login endpoint in UserRestAPI.java
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Map<String, String> credentials) {
-        try {
-            User loggedInUser = userService.login(credentials.get("email"), credentials.get("password"));
-
-            // Generate JWT token
-            String token = jwtUtil.generateToken(loggedInUser);
-
-            Map<String, Object> response = new HashMap<>();
-            response.put("token", token);
-            response.put("user", loggedInUser);
-            response.put("tokenType", "Bearer");
-            response.put("message", "Login successful");
-
-            return ResponseEntity.ok().body(response);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("message", e.getMessage()));
-        }
-    }
-
-    // Modified register endpoint to use JWT
-    @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody User user) {
-        try {
-            User registeredUser = userService.register(user);
-
-            // Generate JWT token
-            String token = jwtUtil.generateToken(registeredUser);
-
-            Map<String, Object> response = new HashMap<>();
-            response.put("token", token);
-            response.put("user", registeredUser);
-            response.put("tokenType", "Bearer");
-            response.put("message", "Registration successful");
-
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(Map.of("message", e.getMessage()));
-        }
-    }
-
-
-    @PostMapping("/logout")
-    public ResponseEntity<?> logout(HttpServletRequest request) {
-        String authHeader = request.getHeader("Authorization");
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            String token = authHeader.substring(7);
-            tokenBlacklistService.blacklistToken(token);
-            return ResponseEntity.ok().body(Map.of("message", "Logged out successfully"));
-        }
-        return ResponseEntity.badRequest().body(Map.of("message", "No token provided"));
     }
 }
 

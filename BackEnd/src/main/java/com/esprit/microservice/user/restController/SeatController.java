@@ -26,7 +26,7 @@ public class SeatController {
 
     @PostMapping
     public Seat createOrUpdateSeat(@RequestBody Seat seat) {
-        Optional<Seat> existingSeat = seatService.getSeatById(seat.getId());
+        Optional<Seat> existingSeat = this.seatService.getSeatById(seat.getId());
         if (existingSeat.isPresent()) {
             // Update existing seat if it exists
             return seatService.updateSeat(seat.getId(), seat);

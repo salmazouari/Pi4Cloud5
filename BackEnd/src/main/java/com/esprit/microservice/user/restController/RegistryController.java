@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import com.esprit.microservice.user.entities.Registry;
 import com.esprit.microservice.user.services.RegistryService.IRegistryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,20 +16,19 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/Registry")
-@AllArgsConstructor
 @Tag(name = "Registry", description = "Student registry management APIs")
 @CrossOrigin("http://localhost:4200")
 public class RegistryController {
 
-    private final IRegistryService registryService;
+    @Autowired
+    private IRegistryService registryService;
 
     @Operation(summary = "Create a new student registry")
     @PostMapping("/registries")
-
     public ResponseEntity<Registry>createRegistry(@RequestBody Registry registry) {
 
-           registryService.createRegistry(registry);
-            return ResponseEntity.ok(registry);
+           this.registryService.createRegistry(registry);
+           return ResponseEntity.ok(registry);
 
     }
 

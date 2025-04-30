@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.biography</OriginalElement>
+  <nodes>
+    <node x="519.25" y="165.0">0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.events</node>
+    <node x="473.1397058823529" y="-116.0">0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.user</node>
+    <node x="234.75" y="457.0">0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.resume</node>
+    <node x="696.25" y="198.0">0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.registry</node>
+    <node x="599.6397058823529" y="446.0">0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.seat</node>
+    <node x="251.25" y="242.0">0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.student</node>
+    <node x="-129.0" y="1058.0">0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.category_seq</node>
+    <node x="393.75" y="650.5">0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.project</node>
+    <node x="249.75" y="639.0">0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.experience</node>
+    <node x="291.0" y="766.0">0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.experience_project</node>
+    <node x="892.25" y="-116.0">0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.category</node>
+    <node x="245.0" y="892.0">0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.task</node>
+    <node x="143.25" y="253.5">0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.contact</node>
+    <node x="392.25" y="253.5">0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.biography</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.experience_project" target="0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.experience" relationship="REFERENCES">
+      <point x="-41.5" y="-38.0" />
+      <point x="332.5" y="741.0" />
+      <point x="311.75" y="741.0" />
+      <point x="0.0" y="38.5" />
+    </edge>
+    <edge source="0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.registry" target="0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.user" relationship="REFERENCES">
+      <point x="0.0" y="-82.5" />
+      <point x="771.75" y="140.0" />
+      <point x="592.6397058823529" y="140.0" />
+      <point x="0.0" y="115.5" />
+    </edge>
+    <edge source="0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.experience_project" target="0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.project" relationship="REFERENCES">
+      <point x="41.5" y="-38.0" />
+      <point x="415.5" y="741.0" />
+      <point x="436.25" y="741.0" />
+      <point x="0.0" y="27.0" />
+    </edge>
+    <edge source="0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.resume" target="0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.biography" relationship="REFERENCES">
+      <point x="51.333333333333336" y="-60.5" />
+      <point x="363.0833333333333" y="421.0" />
+      <point x="445.75" y="421.0" />
+      <point x="0.0" y="27.0" />
+    </edge>
+    <edge source="0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.task" target="0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.experience_project" relationship="REFERENCES">
+      <point x="0.0" y="-60.5" />
+      <point x="0.0" y="38.0" />
+    </edge>
+    <edge source="0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.seat" target="0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.events" relationship="REFERENCES">
+      <point x="-40.0" y="-71.5" />
+      <point x="639.6397058823529" y="421.0" />
+      <point x="597.75" y="421.0" />
+      <point x="0.0" y="115.5" />
+    </edge>
+    <edge source="0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.resume" target="0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.student" relationship="REFERENCES">
+      <point x="0.0" y="-60.5" />
+      <point x="0.0" y="38.5" />
+    </edge>
+    <edge source="0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.experience" target="0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.resume" relationship="REFERENCES">
+      <point x="0.0" y="-38.5" />
+      <point x="0.0" y="60.5" />
+    </edge>
+    <edge source="0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.student" target="0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.user" relationship="REFERENCES">
+      <point x="0.0" y="-38.5" />
+      <point x="311.75" y="140.0" />
+      <point x="592.6397058823529" y="140.0" />
+      <point x="0.0" y="115.5" />
+    </edge>
+    <edge source="0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.seat" target="0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.registry" relationship="REFERENCES">
+      <point x="40.0" y="-71.5" />
+      <point x="719.6397058823529" y="421.0" />
+      <point x="771.75" y="421.0" />
+      <point x="0.0" y="82.5" />
+    </edge>
+    <edge source="0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.resume" target="0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.contact" relationship="REFERENCES">
+      <point x="-51.33333333333334" y="-60.5" />
+      <point x="260.41666666666663" y="421.0" />
+      <point x="187.25" y="421.0" />
+      <point x="0.0" y="27.0" />
+    </edge>
+    <edge source="0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.events" target="0f290aea-6645-4ed1-a083-bcf9451d540a.TABLE:revision.user" relationship="REFERENCES">
+      <point x="0.0" y="-115.5" />
+      <point x="597.75" y="140.0" />
+      <point x="592.6397058823529" y="140.0" />
+      <point x="0.0" y="115.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.8638822115384616" showDependencies="false" x="384.55791304347827" y="428.1446956521739" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Columns</Category>
+    <Category>Comments</Category>
+    <Category>Key columns</Category>
+    <Category>Virtual foreign keys</Category>
+  </Categories>
+</Diagram>
+

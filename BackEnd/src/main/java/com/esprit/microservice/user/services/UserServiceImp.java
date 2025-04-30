@@ -3,7 +3,6 @@ package com.esprit.microservice.user.services;
 import com.esprit.microservice.user.entities.User;
 import com.esprit.microservice.user.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,9 +13,6 @@ public class UserServiceImp implements IUserService {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    PasswordEncoder passwordEncoder;
 
     @Override
     public List<User> getAllUsers() {
@@ -30,7 +26,6 @@ public class UserServiceImp implements IUserService {
 
     @Override
     public User createUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
@@ -55,7 +50,6 @@ public class UserServiceImp implements IUserService {
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new RuntimeException("Email is already in use");
         }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         // Set default role if not specified
         if (user.getRole() == null) {
             user.setRole(User.Role.USER);
@@ -69,10 +63,7 @@ public class UserServiceImp implements IUserService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Invalid credentials or inactive account"));
 
-        // Check if the provided password matches the stored hash
-        if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new RuntimeException("Invalid credentials");
-        }
+
 
         if (!user.isActive()) {
             throw new RuntimeException("Account is inactive");
